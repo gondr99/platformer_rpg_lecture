@@ -16,6 +16,7 @@ public class Player : Entity
     [Header("Attack Settings")]
     public float attackSpeed = 1f;
     public float counterAttackDuration = 0.2f;
+    public Vector2[] attackMovement; //attack movement when combo attack
     [HideInInspector] public int currentComboCounter = 0;
 
 
@@ -34,22 +35,19 @@ public class Player : Entity
 
         foreach (PlayerStateEnum state in Enum.GetValues(typeof(PlayerStateEnum)))
         {
+            
             string typeName = state.ToString();
-            Type t = Type.GetType($"Player{typeName}State");
-            var playerState = Activator.CreateInstance(t, this, StateMachine, typeName) as PlayerState;
-
-            StateMachine.AddState(state, playerState);
             try
             {
-                //Type t = Type.GetType($"Player{typeName}State");
-                //var playerState = Activator.CreateInstance(t, this, StateMachine, typeName) as PlayerState;
+                Type t = Type.GetType($"Player{typeName}State");
+                var playerState = Activator.CreateInstance(t, this, StateMachine, typeName) as PlayerState;
 
-                //StateMachine.AddState(state, playerState);
+                StateMachine.AddState(state, playerState);
             }
             catch (Exception ex)
             {
+                Debug.LogError($"{typeName} is loading error, Message :");
                 Debug.Log(ex);
-                Debug.LogError($"{typeName} is loading error, Message : {ex.Message}");
             }
         }
     }

@@ -20,6 +20,7 @@ public abstract class Entity : MonoBehaviour
     #endregion
 
     public int FacingDirection { get; private set; } = 1; //오른쪽을 향하고 있을때 1
+    public Action<int> OnFlip;
 
     protected virtual void Awake()
     {
@@ -53,6 +54,7 @@ public abstract class Entity : MonoBehaviour
     {
         FacingDirection = FacingDirection * -1;
         transform.Rotate(0, 180, 0); //180도 회전. 
+        OnFlip?.Invoke(FacingDirection);
     }
 
 

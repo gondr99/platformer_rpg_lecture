@@ -1,6 +1,9 @@
 
+using UnityEngine;
+
 public class PlayerWallJumpState : PlayerState
 {
+    private Coroutine _delayCoroutine = null;
     public PlayerWallJumpState(Player player, PlayerStateMachine stateMachine, string animBoolName) : base(player, stateMachine, animBoolName)
     {
     }
@@ -10,7 +13,7 @@ public class PlayerWallJumpState : PlayerState
         base.Enter();
         _player.SetVelocity(5 * -_player.FacingDirection, _player.jumpForce);
 
-        _player.StartDelayCallback(0.4f, () =>
+        _delayCoroutine = _player.StartDelayCallback(0.4f, () =>
         {
             _stateMachine.ChangeState(PlayerStateEnum.Fall);
         });
@@ -18,6 +21,7 @@ public class PlayerWallJumpState : PlayerState
 
     public override void Exit()
     {
+        _player.StopCoroutine(_delayCoroutine);
         base.Exit();
     }
 
