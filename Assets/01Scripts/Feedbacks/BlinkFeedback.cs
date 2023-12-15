@@ -21,7 +21,6 @@ public class BlinkFeedback : MonoBehaviour, IFeedback
     {
         _material.SetFloat(_blinkShaderParam, _blinkValue);
         _delayCoroutine = StartCoroutine(SetNormalAfterDelay());
-        Debug.Log("feedback");
     }
 
     private IEnumerator SetNormalAfterDelay()

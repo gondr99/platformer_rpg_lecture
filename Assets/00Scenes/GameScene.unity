@@ -63314,6 +63314,8 @@ MonoBehaviour:
   isDead: 0
   isKnockbacked: 0
   _knockbackDuration: 0
+  stunDuration: 3
+  stunDirection: {x: 3, y: 5}
   HitEvent:
     m_PersistentCalls:
       m_Calls:
@@ -64093,6 +64095,8 @@ MonoBehaviour:
   isDead: 0
   isKnockbacked: 0
   _knockbackDuration: 0
+  stunDuration: 0
+  stunDirection: {x: 0, y: 0}
   HitEvent:
     m_PersistentCalls:
       m_Calls:

@@ -13,4 +13,7 @@ public class EnemyAnimationTriggers : MonoBehaviour
     {
         _enemy.AnimationFinishTrigger();
     }
+
+    private void CounterAttackTrigger() => _enemy.OpenCounterAttackWindow();
+    private void CounterAttackEndTrigger() => _enemy.CloseCounterAttackWindow();
 }

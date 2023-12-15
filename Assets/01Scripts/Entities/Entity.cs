@@ -32,6 +32,11 @@ public abstract class Entity : MonoBehaviour
     [SerializeField] protected float _knockbackDuration;
     protected Coroutine _knockbackCoroutine = null;
 
+    [Header("Stun Info")]
+    public float stunDuration;
+    public Vector2 stunDirection;
+    protected bool _canBeStuned;
+
     [Space]
     [Header("Feedback event")]
     public UnityEvent HitEvent;
@@ -63,7 +68,6 @@ public abstract class Entity : MonoBehaviour
     #region handling event
     protected virtual void HandleHitEvent()
     {
-        Debug.Log("asdads");
         HitEvent?.Invoke();
     }
 

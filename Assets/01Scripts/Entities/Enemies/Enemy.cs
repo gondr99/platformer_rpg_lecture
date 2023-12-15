@@ -51,6 +51,29 @@ public abstract class Enemy : Entity
     public abstract void AnimationFinishTrigger();
 
 
+    #region counter attack region
+    public virtual void OpenCounterAttackWindow()
+    {
+        _canBeStuned = true;
+    }
+
+    public virtual void CloseCounterAttackWindow()
+    {
+        _canBeStuned = false;
+    }
+
+    public virtual bool CanBeStunned()
+    {
+        if (_canBeStuned)
+        {
+            CloseCounterAttackWindow();
+            return true;
+        }
+
+        return false;
+    }
+    #endregion
+
 
 #if UNITY_EDITOR
     protected override void OnDrawGizmos()
