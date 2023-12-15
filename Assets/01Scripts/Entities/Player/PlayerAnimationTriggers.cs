@@ -13,4 +13,9 @@ public class PlayerAnimationTriggers : MonoBehaviour
     {
         _player.AnimationFinishTrigger();
     }
+
+    private void AttackTrigger()
+    {
+        _player.Attack();
+    }
 }

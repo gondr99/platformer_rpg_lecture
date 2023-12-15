@@ -17,10 +17,14 @@ public abstract class Entity : MonoBehaviour
     public Rigidbody2D RigidbodyCompo { get; private set; }
     public SpriteRenderer SpriteRendererCompo { get; private set; }
     public CapsuleCollider2D Collder2DCompo { get; private set; }
+    public DamageCaster DamageCasterCompo { get; private set; }
+    public Health HealthCompo { get; private set; }
     #endregion
 
     public int FacingDirection { get; private set; } = 1; //오른쪽을 향하고 있을때 1
     public Action<int> OnFlip;
+
+    [HideInInspector]public bool isDead;
 
     protected virtual void Awake()
     {
@@ -29,7 +33,13 @@ public abstract class Entity : MonoBehaviour
         SpriteRendererCompo = visualTrm.GetComponent<SpriteRenderer>();
         RigidbodyCompo = GetComponent<Rigidbody2D>();
         Collder2DCompo = GetComponent<CapsuleCollider2D>();
+        DamageCasterCompo = transform.Find("DamageCaster").GetComponent<DamageCaster>();
+        HealthCompo = GetComponent<Health>();
+
+        DamageCasterCompo.SetOwner(this);
+        HealthCompo.SetOwner(this);
     }
+
 
     #region Delay Callback Coroutine
 

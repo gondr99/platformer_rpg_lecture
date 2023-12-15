@@ -86,7 +86,12 @@ public class Player : Entity
 
     public override void Attack()
     {
-        
+        bool hitSuccess = DamageCasterCompo.CastDamage(); 
+
+        if (hitSuccess)
+        {
+            //공격성공여부에 따라 발동해야 할 효과들을 여기서 발동한다.
+        }
     }
 
     public void AnimationFinishTrigger() => StateMachine.CurrentState.AnimationFinishTrigger();
