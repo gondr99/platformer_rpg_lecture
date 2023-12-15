@@ -6,7 +6,8 @@ public enum SkelectonStateEnum
     Idle,
     Move,
     Battle,
-    Attack
+    Attack,
+    Hit
 }
 
 public class EnemySkelecton : Enemy
@@ -33,6 +34,14 @@ public class EnemySkelecton : Enemy
                 Debug.LogError($"Enemy skelecton : no state [ {typeName} ]");
             }
         }
+
+    }
+
+    
+    protected override void HandleHitEvent()
+    {
+        base.HandleHitEvent();
+        StateMachine.ChangeState(SkelectonStateEnum.Hit);
     }
 
     protected void Start()
@@ -55,4 +64,5 @@ public class EnemySkelecton : Enemy
     {
 
     }
+
 }

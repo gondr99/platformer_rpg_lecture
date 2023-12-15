@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 public abstract class Entity : MonoBehaviour
 {
@@ -24,7 +25,17 @@ public abstract class Entity : MonoBehaviour
     public int FacingDirection { get; private set; } = 1; //오른쪽을 향하고 있을때 1
     public Action<int> OnFlip;
 
-    [HideInInspector]public bool isDead;
+    [HideInInspector] public bool isDead;
+
+    [Header("Knockback")]
+    [HideInInspector] public bool isKnockbacked;
+    [SerializeField] protected float _knockbackDuration;
+    protected Coroutine _knockbackCoroutine = null;
+
+    [Space]
+    [Header("Feedback event")]
+    public UnityEvent HitEvent;
+
 
     protected virtual void Awake()
     {
@@ -38,8 +49,38 @@ public abstract class Entity : MonoBehaviour
 
         DamageCasterCompo.SetOwner(this);
         HealthCompo.SetOwner(this);
+
+        HealthCompo.OnHit += HandleHitEvent;
+        HealthCompo.OnKnockBack += HandleKnockbackEvent;
     }
 
+    protected virtual void OnDestroy()
+    {
+        HealthCompo.OnHit -= HandleHitEvent;
+        HealthCompo.OnKnockBack -= HandleKnockbackEvent;
+    }
+
+    #region handling event
+    protected virtual void HandleHitEvent()
+    {
+        Debug.Log("asdads");
+        HitEvent?.Invoke();
+    }
+
+    protected virtual void HandleKnockbackEvent(Vector2 knockbackPower)
+    {
+        if(_knockbackCoroutine != null)
+        {
+            StopCoroutine(_knockbackCoroutine);
+        }
+
+        isKnockbacked = true;
+        SetVelocity(knockbackPower.x, knockbackPower.y, true);
+        _knockbackCoroutine  = StartDelayCallback(_knockbackDuration, () => isKnockbacked = false);
+    }
+
+
+    #endregion
 
     #region Delay Callback Coroutine
 

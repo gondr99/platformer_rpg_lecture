@@ -86,7 +86,7 @@ public class Player : Entity
 
     public override void Attack()
     {
-        bool hitSuccess = DamageCasterCompo.CastDamage(); 
+        bool hitSuccess = DamageCasterCompo.CastDamage(currentComboCounter); 
 
         if (hitSuccess)
         {

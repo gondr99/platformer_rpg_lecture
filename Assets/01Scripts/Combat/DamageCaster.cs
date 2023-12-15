@@ -5,7 +5,7 @@ public class DamageCaster : MonoBehaviour
     public Transform attackChecker;
     public float attackCheckRadius;
 
-    public Vector2 knockbackPower;
+    public Vector2[] knockbackPower;
 
     [SerializeField] private int _maxHitCount = 5; //최대로 때릴 수 있는 적 갯수
     public LayerMask whatIsEnemy;
@@ -23,13 +23,15 @@ public class DamageCaster : MonoBehaviour
         _owner = owner;
     }
 
-    public bool CastDamage()
+    public bool CastDamage(int combo)
     {
 
         //논얼로케이터는 이렇게 쓰는거다!
+        ContactFilter2D filter = new ContactFilter2D();
+        filter.SetLayerMask(whatIsEnemy);
         int cnt = Physics2D.OverlapCircle(attackChecker.position, 
             attackCheckRadius, 
-            new ContactFilter2D { layerMask = whatIsEnemy }, 
+            filter, 
             _hitResult);
 
 
@@ -42,7 +44,9 @@ public class DamageCaster : MonoBehaviour
             {
                 int damage = 5; //나중에 스탯을 통해 뽑아야와하지만 현재 없으니 이렇게
 
-                health.ApplyDamage(damage, direction, knockbackPower, _owner);
+
+                Vector2 power = knockbackPower[combo];
+                health.ApplyDamage(damage, direction, power, _owner);
             }
         }
 
