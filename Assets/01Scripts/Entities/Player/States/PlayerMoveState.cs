@@ -23,7 +23,7 @@ public class PlayerMoveState : PlayerGroundState
 
         _player.SetVelocity(xInput * _player.moveSpeed, _rigidbody.velocity.y);
 
-        if(Mathf.Abs(xInput) < 0.05f )
+        if(Mathf.Abs(xInput) < 0.05f || _player.IsWallDetected())
         {
             _stateMachine.ChangeState(PlayerStateEnum.Idle);
         }

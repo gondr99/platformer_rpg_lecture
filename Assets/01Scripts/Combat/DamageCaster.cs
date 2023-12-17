@@ -7,10 +7,11 @@ public class DamageCaster : MonoBehaviour
 
     public Vector2[] knockbackPower;
 
-    [SerializeField] private int _maxHitCount = 5; //ÃÖ´ë·Î ¶§¸± ¼ö ÀÖ´Â Àû °¹¼ö
+    [SerializeField] private int _maxHitCount = 5; 
     public LayerMask whatIsEnemy;
     private Collider2D[] _hitResult;
 
+    [SerializeField] private float _damageMultiplier = 1f;
     private Entity _owner;
     
     private void Awake()
@@ -26,7 +27,6 @@ public class DamageCaster : MonoBehaviour
     public bool CastDamage(int combo)
     {
 
-        //³í¾ó·ÎÄÉÀÌÅÍ´Â ÀÌ·¸°Ô ¾²´Â°Å´Ù!
         ContactFilter2D filter = new ContactFilter2D();
         filter.SetLayerMask(whatIsEnemy);
         int cnt = Physics2D.OverlapCircle(attackChecker.position, 
@@ -37,20 +37,38 @@ public class DamageCaster : MonoBehaviour
 
         for (int i = 0; i < cnt; ++i)
         {
-            //ÇÇ°Ý¹æÇâ±¸ÇÏ°í
+            
             Vector2 direction = (_hitResult[i].transform.position - transform.position).normalized;
-            //½ÇÁ¦ µ¥¹ÌÁö Àû¿ëÇØ¾ßÇÔ.
+            
             if (_hitResult[i].TryGetComponent<IDamageable>(out IDamageable health))
             {
-                int damage = 5; //³ªÁß¿¡ ½ºÅÈÀ» ÅëÇØ »Ì¾Æ¾ß¿ÍÇÏÁö¸¸ ÇöÀç ¾øÀ¸´Ï ÀÌ·¸°Ô
+                int damage = 5; //temporary 5 fixed, after make stat it will be fixd;
 
-
+                damage = CalculateDamage(damage); //ê³„ì‚°ì¦ëŽ€
                 Vector2 power = knockbackPower[combo];
                 health.ApplyDamage(damage, direction, power, _owner);
             }
         }
 
         return cnt > 0;
+    }
+
+    public void CastDamageWithStun(Enemy target, float multiplier, Vector2 attackDireciton, Vector2 stunPower, float stunTime)
+    {
+        int damage = Mathf.CeilToInt( 5 * multiplier); //temporary 5 fixed, after make stat it will be fixd;
+        damage = CalculateDamage(damage);
+        target.HealthCompo.ApplyDamage(damage, attackDireciton, stunPower, _owner);
+        target.Stun(stunTime);
+    }
+
+    public void SetDamageMultiplier(float multiplier)
+    {
+        _damageMultiplier = multiplier;
+    }
+    
+    private int CalculateDamage(int damage)
+    {
+        return Mathf.CeilToInt(damage * _damageMultiplier);
     }
 
 #if UNITY_EDITOR

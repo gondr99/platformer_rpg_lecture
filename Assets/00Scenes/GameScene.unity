@@ -63280,7 +63280,7 @@ Transform:
   m_GameObject: {fileID: 1003363317}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -43.27, y: -6.45, z: -0.114488415}
+  m_LocalPosition: {x: -42.99, y: -6.61, z: -0.114488415}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -63480,6 +63480,7 @@ Transform:
   m_Children:
   - {fileID: 603641543}
   - {fileID: 58604897}
+  - {fileID: 2023334746}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1232733131
@@ -63661,6 +63662,37 @@ Transform:
   - {fileID: 6107072}
   - {fileID: 1963845553}
   m_Father: {fileID: 50774315}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1590605500
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1590605501}
+  m_Layer: 7
+  m_Name: AimDotParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1590605501
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1590605500}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1830521117}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1602787908
 GameObject:
@@ -64070,6 +64102,7 @@ Transform:
   - {fileID: 1248819501}
   - {fileID: 2046660237}
   - {fileID: 557793219}
+  - {fileID: 1590605501}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1830521118
@@ -64095,8 +64128,8 @@ MonoBehaviour:
   isDead: 0
   isKnockbacked: 0
   _knockbackDuration: 0
-  stunDuration: 0
-  stunDirection: {x: 0, y: 0}
+  stunDuration: 3
+  stunDirection: {x: 2, y: 4}
   HitEvent:
     m_PersistentCalls:
       m_Calls:
@@ -64495,6 +64528,136 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &2023334745
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2023334746}
+  - component: {fileID: 2023334748}
+  - component: {fileID: 2023334747}
+  - component: {fileID: 2023334749}
+  - component: {fileID: 2023334750}
+  m_Layer: 0
+  m_Name: SkillManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2023334746
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2023334745}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1136546774}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2023334747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2023334745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b0964e246062b945ac82856594fd7fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillEnabled: 1
+  whatIsEnemy:
+    serializedVersion: 2
+    m_Bits: 0
+  _cooldown: 2
+  _maxCheckEnemy: 5
+--- !u!114 &2023334748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2023334745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62948e1680b48ec4bb7258b08166ebde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2023334749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2023334745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4a8706039f126546b7e734debb82511, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillEnabled: 1
+  whatIsEnemy:
+    serializedVersion: 2
+    m_Bits: 256
+  _cooldown: 0
+  _maxCheckEnemy: 5
+  _clonePrefab: {fileID: 3657773382984181328, guid: 2a42becca83c8ab4eb2a255537c5fbe7, type: 3}
+  cloneDuration: 1.5
+  createCloneOnDashStart: 1
+  createCloneOnDashOver: 1
+  createCloneOnCounterAttack: 1
+  _counterCloneOffset: 1.5
+  _delayToCreateCounterClone: 0.4
+  findEnemyRadius: 8
+  damageMultiplier: 1
+  canDuplicateClone: 0
+  duplicatePercent: 0.8
+  maxDuplicateCounter: 0
+  reducePercentByCount: 0
+--- !u!114 &2023334750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2023334745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6332c6323616ade4bb9a106b367445cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillEnabled: 1
+  whatIsEnemy:
+    serializedVersion: 2
+    m_Bits: 256
+  _cooldown: 0
+  _maxCheckEnemy: 5
+  swordSkillType: 0
+  _swordPrefab: {fileID: 9144474719533883810, guid: ecc88ebbd8fe4574ead0e21c2e84d033, type: 3}
+  _launchForce: {x: 35, y: 25}
+  _swordGravity: 4.5
+  _returnSpeed: 40
+  freezeTime: 1.3
+  damageMultiplier: 1
+  knockbackPower: {x: 7, y: 3}
+  returnImpactPower: 8
+  destroyTimer: 7
+  _numberOfDots: 20
+  _spaceBetweenDots: 0.07
+  _dotPrefab: {fileID: 5009035605248436409, guid: c755ff8db906d844faf5040447ce5a34, type: 3}
+  _dotsParent: {fileID: 1590605501}
+  generatedSword: {fileID: 0}
+  canFreeze: 0
 --- !u!1 &2041423533
 GameObject:
   m_ObjectHideFlags: 0
@@ -64924,6 +65087,6 @@ SceneRoots:
   - {fileID: 50774315}
   - {fileID: 1830521117}
   - {fileID: 889703488}
-  - {fileID: 1136546774}
   - {fileID: 450851699}
   - {fileID: 1003363320}
+  - {fileID: 1136546774}

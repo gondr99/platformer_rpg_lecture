@@ -7,7 +7,9 @@ public enum SkelectonStateEnum
     Move,
     Battle,
     Attack,
-    Hit
+    Hit,
+    Stun,
+    Dead
 }
 
 public class EnemySkelecton : Enemy
@@ -17,7 +19,7 @@ public class EnemySkelecton : Enemy
     protected override void Awake()
     {
         base.Awake();
-        StateMachine = new EnemyStateMachine<SkelectonStateEnum>(); //»óÅÂ¸Ó½Å ¸¸µé°í
+        StateMachine = new EnemyStateMachine<SkelectonStateEnum>(); //state machine make by generic
 
         foreach (SkelectonStateEnum state in Enum.GetValues(typeof(SkelectonStateEnum)))
         {
@@ -46,7 +48,7 @@ public class EnemySkelecton : Enemy
 
     protected void Start()
     {
-        StateMachine.Initialize(SkelectonStateEnum.Idle);
+        StateMachine.Initialize(SkelectonStateEnum.Idle, this);
     }
 
     protected void Update()
@@ -65,4 +67,17 @@ public class EnemySkelecton : Enemy
 
     }
 
+    public override void Stun(float time)
+    {
+        if (isDead) return;
+
+        stunDuration = time; 
+        StateMachine.ChangeState(SkelectonStateEnum.Stun);
+    }
+
+    protected override void HandleDead(Vector2 direction)
+    {
+        //directionì€ ì°¨í›„ ì“¸ìˆ˜ë„ ìˆì–´ì„œ ë°›ì•„ë‘ .
+        StateMachine.ChangeState(SkelectonStateEnum.Dead);
+    }
 }

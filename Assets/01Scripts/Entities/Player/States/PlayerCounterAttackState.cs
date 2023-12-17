@@ -7,18 +7,17 @@ public class PlayerCounterAttackState : PlayerState
     private float _counterTimer;
     private Collider2D[] _hitResult;
 
-    private bool _cloneCreated = false;
 
     public PlayerCounterAttackState(Player player, PlayerStateMachine stateMachine, string animBoolName) : base(player, stateMachine, animBoolName)
     {
-        _hitResult = new Collider2D[1]; //Ä«¿îÅÍ´Â ÇÑ¸í¸¸.
+        _hitResult = new Collider2D[1];
     }
 
     public override void Enter()
     {
         base.Enter();
         _player.StopImmediately(false);
-        _counterTimer = _player.counterAttackDuration; //Ä«¿îÅÍ¾îÅÃ ½Ã°£ ÃÊ±âÈ­.
+        _counterTimer = _player.counterAttackDuration; 
         _player.AnimatorCompo.SetBool(_successCounterHash, false);
     }
 
@@ -51,8 +50,13 @@ public class PlayerCounterAttackState : PlayerState
             {
                 if (enemy.CanBeStunned())
                 {
-                    _counterTimer = 5f; //ÀÏ´Ü Å©°Ô ³Ö¾îÁÖ¸é ¾Ö´Ï¸ŞÀÌÅÍ¿¡ ÀÇÇØ¼­ ¾Ë¾Æ¼­ Á¾·áµÈ´Ù.
+                    _counterTimer = 5f; //ì¼ë‹¨ 5ì´ˆë¡œ ë†“ìœ¼ë©´ ë‚˜ì¤‘ì— ì• ë‹ˆë©”ì´ì…˜ì— ì˜í•´ íŠ¸ë¦¬ê±°
                     _player.AnimatorCompo.SetBool(_successCounterHash, true);
+
+                    Vector2 direction = new Vector2(_player.stunDirection.x * _player.FacingDirection, _player.stunDirection.y);
+                    caster.CastDamageWithStun(enemy, 2f, direction, _player.stunDirection, _player.stunDuration);
+
+                    SkillManager.Instance.GetSkill<CloneSkill>()?.CreateCloneOnCounterAttack(enemy.transform);
                 }
             }
         }

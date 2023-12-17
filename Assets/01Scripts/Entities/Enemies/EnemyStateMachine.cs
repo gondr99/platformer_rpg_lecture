@@ -7,14 +7,19 @@ public class EnemyStateMachine<T> where T : Enum
     public EnemyState<T> CurrentState { get; private set; }
     public Dictionary<T, EnemyState<T>> StateDictionary = new Dictionary<T, EnemyState<T>>();
 
-    public void Initialize(T startState)
+    public Enemy _enemyBase;
+
+    public void Initialize(T startState, Enemy enemy)
     {
+        _enemyBase = enemy;
         CurrentState = StateDictionary[startState];
         CurrentState.Enter();
     }
 
     public void ChangeState(T newState)
     {
+        if (!_enemyBase.CanStateChangeable) return;
+
         CurrentState.Exit();
         CurrentState = StateDictionary[newState];
         CurrentState.Enter();

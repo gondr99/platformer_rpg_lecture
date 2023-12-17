@@ -22,6 +22,7 @@ public abstract class Entity : MonoBehaviour
     public Health HealthCompo { get; private set; }
     #endregion
 
+    public bool CanStateChangeable { get; set; } = true; //state can be change when value is true
     public int FacingDirection { get; private set; } = 1; //오른쪽을 향하고 있을때 1
     public Action<int> OnFlip;
 
@@ -57,13 +58,19 @@ public abstract class Entity : MonoBehaviour
 
         HealthCompo.OnHit += HandleHitEvent;
         HealthCompo.OnKnockBack += HandleKnockbackEvent;
+        HealthCompo.OnDead += HandleDead;
     }
 
     protected virtual void OnDestroy()
     {
         HealthCompo.OnHit -= HandleHitEvent;
         HealthCompo.OnKnockBack -= HandleKnockbackEvent;
+        HealthCompo.OnDead -= HandleDead;
     }
+
+    public abstract void Attack();
+    public abstract void Stun(float time);
+    protected abstract void HandleDead(Vector2 direction);
 
     #region handling event
     protected virtual void HandleHitEvent()
@@ -101,7 +108,6 @@ public abstract class Entity : MonoBehaviour
 
     #endregion
 
-    public abstract void Attack();
 
     #region Flip controlling
 

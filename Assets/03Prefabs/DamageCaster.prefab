@@ -47,11 +47,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackChecker: {fileID: 8344523083469491337}
   attackCheckRadius: 1.2
-  knockbackPower: {x: 5, y: 7}
+  knockbackPower:
+  - {x: 0.00000085078057, y: 5.2359223e+22}
+  - {x: 1.3221759e+22, y: 0.00000016876662}
   _maxHitCount: 5
   whatIsEnemy:
     serializedVersion: 2
     m_Bits: 256
+  _damageMultiplier: 1
 --- !u!1 &3250964358847580679
 GameObject:
   m_ObjectHideFlags: 0

@@ -20,13 +20,10 @@ public class Player : Entity
     [HideInInspector] public int currentComboCounter = 0;
 
 
-
     public PlayerStateMachine StateMachine { get; private set; }
     [SerializeField] private InputReader _inputReader;
     public InputReader PlayerInput => _inputReader; 
 
-
-    public bool CanStateChangeable { get; private set; } = true;
 
     protected override void Awake()
     {
@@ -65,7 +62,13 @@ public class Player : Entity
 
     private void HandleDashEvent()
     {
-        StateMachine.ChangeState(PlayerStateEnum.Dash);
+        if (IsWallDetected())
+            return;
+
+        if (SkillManager.Instance.GetSkill<DashSkill>().AttemptUseSkill())
+        {
+            StateMachine.ChangeState(PlayerStateEnum.Dash);
+        }
     }
     #endregion
 
@@ -90,10 +93,19 @@ public class Player : Entity
 
         if (hitSuccess)
         {
-            //공격성공여부에 따라 발동해야 할 효과들을 여기서 발동한다.
+            //hit success item effect must implementing here
         }
     }
 
     public void AnimationFinishTrigger() => StateMachine.CurrentState.AnimationFinishTrigger();
-    
+
+    public override void Stun(float time)
+    {
+        //currently do nothing here!
+    }
+
+    protected override void HandleDead(Vector2 direction)
+    {
+        //currently do nothing here!
+    }
 }

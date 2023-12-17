@@ -71,6 +71,33 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CounterAttack"",
+                    ""type"": ""Button"",
+                    ""id"": ""515625b4-90f7-4136-9295-b80f9aa9b04b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""AimPoision"",
+                    ""type"": ""Value"",
+                    ""id"": ""056670f9-924f-492a-9758-5edf798f1975"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""ThrowSword"",
+                    ""type"": ""Button"",
+                    ""id"": ""4a05702f-405a-4a4b-b6e7-f14d9a9002bd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -172,6 +199,39 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""PrimaryAttack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""379dd334-984d-4985-a73c-719a9e7c9b19"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CounterAttack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a9293a1e-beb6-4471-8d2c-8bdcedabbea2"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AimPoision"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cc03eff9-59e2-45f7-a51a-9346e449ff52"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ThrowSword"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -202,6 +262,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_Player_YMovement = m_Player.FindAction("YMovement", throwIfNotFound: true);
         m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
         m_Player_PrimaryAttack = m_Player.FindAction("PrimaryAttack", throwIfNotFound: true);
+        m_Player_CounterAttack = m_Player.FindAction("CounterAttack", throwIfNotFound: true);
+        m_Player_AimPoision = m_Player.FindAction("AimPoision", throwIfNotFound: true);
+        m_Player_ThrowSword = m_Player.FindAction("ThrowSword", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -268,6 +331,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_YMovement;
     private readonly InputAction m_Player_Dash;
     private readonly InputAction m_Player_PrimaryAttack;
+    private readonly InputAction m_Player_CounterAttack;
+    private readonly InputAction m_Player_AimPoision;
+    private readonly InputAction m_Player_ThrowSword;
     public struct PlayerActions
     {
         private @Controls m_Wrapper;
@@ -277,6 +343,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @YMovement => m_Wrapper.m_Player_YMovement;
         public InputAction @Dash => m_Wrapper.m_Player_Dash;
         public InputAction @PrimaryAttack => m_Wrapper.m_Player_PrimaryAttack;
+        public InputAction @CounterAttack => m_Wrapper.m_Player_CounterAttack;
+        public InputAction @AimPoision => m_Wrapper.m_Player_AimPoision;
+        public InputAction @ThrowSword => m_Wrapper.m_Player_ThrowSword;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -301,6 +370,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @PrimaryAttack.started += instance.OnPrimaryAttack;
             @PrimaryAttack.performed += instance.OnPrimaryAttack;
             @PrimaryAttack.canceled += instance.OnPrimaryAttack;
+            @CounterAttack.started += instance.OnCounterAttack;
+            @CounterAttack.performed += instance.OnCounterAttack;
+            @CounterAttack.canceled += instance.OnCounterAttack;
+            @AimPoision.started += instance.OnAimPoision;
+            @AimPoision.performed += instance.OnAimPoision;
+            @AimPoision.canceled += instance.OnAimPoision;
+            @ThrowSword.started += instance.OnThrowSword;
+            @ThrowSword.performed += instance.OnThrowSword;
+            @ThrowSword.canceled += instance.OnThrowSword;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -320,6 +398,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @PrimaryAttack.started -= instance.OnPrimaryAttack;
             @PrimaryAttack.performed -= instance.OnPrimaryAttack;
             @PrimaryAttack.canceled -= instance.OnPrimaryAttack;
+            @CounterAttack.started -= instance.OnCounterAttack;
+            @CounterAttack.performed -= instance.OnCounterAttack;
+            @CounterAttack.canceled -= instance.OnCounterAttack;
+            @AimPoision.started -= instance.OnAimPoision;
+            @AimPoision.performed -= instance.OnAimPoision;
+            @AimPoision.canceled -= instance.OnAimPoision;
+            @ThrowSword.started -= instance.OnThrowSword;
+            @ThrowSword.performed -= instance.OnThrowSword;
+            @ThrowSword.canceled -= instance.OnThrowSword;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -353,5 +440,8 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         void OnYMovement(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
         void OnPrimaryAttack(InputAction.CallbackContext context);
+        void OnCounterAttack(InputAction.CallbackContext context);
+        void OnAimPoision(InputAction.CallbackContext context);
+        void OnThrowSword(InputAction.CallbackContext context);
     }
 }

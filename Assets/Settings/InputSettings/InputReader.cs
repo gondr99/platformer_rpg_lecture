@@ -10,11 +10,14 @@ public class InputReader : ScriptableObject, IPlayerActions
     public event Action JumpEvent;
     public event Action DashEvent;
     public event Action PrimaryAttackEvent;
+    public event Action CounterAttackEvent;
+    public event Action<bool> ThrowSwordEvent;
     #endregion
 
     #region input value section
     public float XInput { get; private set; }
     public float YInput { get; private set; }
+    public Vector2 AimPosition { get; private set; }
     #endregion
 
     private Controls _controls;
@@ -55,5 +58,27 @@ public class InputReader : ScriptableObject, IPlayerActions
     {
         if(context.performed)
             PrimaryAttackEvent?.Invoke();
+    }
+
+    public void OnCounterAttack(InputAction.CallbackContext context)
+    {
+        if(context.performed)
+            CounterAttackEvent?.Invoke();
+    }
+
+    public void OnAimPoision(InputAction.CallbackContext context)
+    {
+        AimPosition = context.ReadValue<Vector2>();
+    }
+
+    public void OnThrowSword(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            ThrowSwordEvent?.Invoke(true);
+        }else if (context.canceled)
+        {
+            ThrowSwordEvent?.Invoke(false);
+        }
     }
 }

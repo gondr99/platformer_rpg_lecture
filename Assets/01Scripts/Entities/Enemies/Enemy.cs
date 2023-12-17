@@ -3,24 +3,24 @@ using UnityEngine;
 public abstract class Enemy : Entity
 {
 
-    [Header("¼ÂÆÃ°ªµé")]
+    [Header("Setting Values")]
     public float moveSpeed;
     public float idleTime;
-    public float battleTime; //ÀüÅõ½Ã°£À» ÃÊ°úÇÏ¸é idle»óÅÂ·Î ÀÌµ¿ÇÑ´Ù.
+    public float battleTime; //ì „íˆ¬ì‹œê°„ì„ ì´ˆê³¼í•˜ë©´ idleìƒíƒœë¡œ ì´ë™í•œë‹¤.
 
     private float _defaultMoveSpeed;
 
     [SerializeField] protected LayerMask _whatIsPlayer;
     [SerializeField] protected LayerMask _whatIsObstacle;
 
-    [Header("°ø°Ý»óÅÂ¼³Á¤°ª")]
+    [Header("Attack Values")]
     public float runAwayDistance;
     public float attackDistance;
     public float attackCooldown;
     [HideInInspector] public float lastTimeAttacked;
 
 
-    protected int _lastAnimationBoolHash; //¸¶Áö¸·À¸·Î Àç»ýµÈ ¾Ö´Ï¸ÞÀÌ¼Ç ÇØ½Ã
+    protected int _lastAnimationBoolHash; //ë§ˆì§€ë§‰ìœ¼ë¡œ ìž¬ìƒëœ ì• ë‹ˆë©”ì´ì…˜ í•´ì‹œ
 
     protected override void Awake()
     {
@@ -39,7 +39,7 @@ public abstract class Enemy : Entity
         return _lastAnimationBoolHash;
     }
 
-    //Àü¹æ¿¡ ÇÃ·¹ÀÌ¾î°¡ ÀÖ´ÂÁö °Ë»ç.
+    //ì „ë°©ì— í”Œë ˆì´ì–´ê°€ ìžˆëŠ”ì§€ ê²€ì‚¬.
     public virtual RaycastHit2D IsPlayerDetected()
         => Physics2D.Raycast(_wallChecker.position, Vector2.right * FacingDirection, runAwayDistance, _whatIsPlayer);
 

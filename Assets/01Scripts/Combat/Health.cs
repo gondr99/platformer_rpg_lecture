@@ -29,13 +29,13 @@ public class Health : MonoBehaviour, IDamageable
 
     public void ApplyDamage(int damage, Vector2 attackDirection, Vector2 knockbackPower, Entity dealer)
     {
-        if (_owner.isDead) return; //나중에 무적로직도 추가
+        if (_owner.isDead) return; // if dead then return
 
         _currentHealth = Mathf.Clamp(_currentHealth - damage, 0, maxHealth);
         isHitByMelee = true;
         lastAttackDirection = (transform.position - dealer.transform.position).normalized;
 
-        knockbackPower.x *= attackDirection.x; //y값은 고정으로.
+        knockbackPower.x *= attackDirection.x; //y value stay to default
         AfterHitFeedbacks(knockbackPower);
     }
 

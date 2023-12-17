@@ -28,11 +28,15 @@ public class CameraManager : MonoSingleton<CameraManager>
     private Vector2 _startingTrackedObjectOffset;
 
     private Dictionary<PanDirection, Vector2> _panDictionary;
-
+    
+    public Camera MainCam { get; private set; }
+    
     private void Awake()
     {
+        MainCam = Camera.main;
+        
         ChangeCamera(_virtualCameras[0]);
-
+        
         _panDictionary = new Dictionary<PanDirection, Vector2>();
         _panDictionary.Add(PanDirection.Up, Vector2.up);
         _panDictionary.Add(PanDirection.Down, Vector2.down);
@@ -69,7 +73,7 @@ public class CameraManager : MonoSingleton<CameraManager>
             LerpedFromPlayerFalling = true;
         }
 
-        //yµ©ÇÎ°ªÀ» ¼­¼­È÷ ÁÙÀÌ°Å³ª Å°¿öÁÖ´Â ¿ªÇÒÀ» ÇÏ´Â Æ®À©.
+        //yï¿½ï¿½ï¿½Î°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì°Å³ï¿½ Å°ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ Æ®ï¿½ï¿½.
         IsLerpingYDamping = true;
         _lerpYPanTween = DOTween.To(
                 () => _framingTransposer.m_YDamping, 
@@ -84,7 +88,7 @@ public class CameraManager : MonoSingleton<CameraManager>
     {
         Vector3 endPos = Vector3.zero;
 
-        //½ÃÀÛÁ¡À¸·Î µÇµ¹¸®±â°¡ ¾Æ´Ï¸é
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Çµï¿½ï¿½ï¿½ï¿½â°¡ ï¿½Æ´Ï¸ï¿½
         if(!panToStartingPos)
         {
             endPos = _panDictionary[panDirection] * panDistance + _startingTrackedObjectOffset;
@@ -117,7 +121,7 @@ public class CameraManager : MonoSingleton<CameraManager>
     {
         if(_currentCam == camFromLeft && triggerExitDirection.x > 0)
         {
-            ChangeCamera(camFromRight); //¿À¸¥ÂÊ Ä«¸Þ¶ó È°¼ºÈ­.
+            ChangeCamera(camFromRight); //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½Þ¶ï¿½ È°ï¿½ï¿½È­.
 
         }else if(_currentCam == camFromRight && triggerExitDirection.x < 0)
         {
