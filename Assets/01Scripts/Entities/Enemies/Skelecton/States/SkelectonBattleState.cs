@@ -31,7 +31,7 @@ public class SkelectonBattleState : EnemyState<SkelectonStateEnum>
     {
         base.UpdateState();
 
-        //ÀÌµ¿¼Óµµ¸¦ °è¼Ó °»½Å
+        //ì´ë™ì†ë„ë¥¼ ê³„ì† ê°±ì‹ 
         _enemyBase.AnimatorCompo.SetFloat(_xVelocityHash, Mathf.Abs(_rigidbody.velocity.x));
 
         if (_player.transform.position.x > _enemyBase.transform.position.x)
@@ -41,12 +41,12 @@ public class SkelectonBattleState : EnemyState<SkelectonStateEnum>
         _enemyBase.SetVelocity(_enemyBase.moveSpeed * _moveDirection, _rigidbody.velocity.y);
 
         RaycastHit2D hit = _enemyBase.IsPlayerDetected();
-        //·¹ÀÌÄ³½ºÆ®Èı±¸Á¶Ã¼ ¾È¿¡ operator bool ÀÌ ÀçÁ¤ÀÇ µÇ¾î ÀÖÀ½. hit.collider == null Ã¼Å©ÇÔ.
+        //ë ˆì´ìºìŠ¤íŠ¸í›êµ¬ì¡°ì²´ ì•ˆì— operator bool ì´ ì¬ì •ì˜ ë˜ì–´ ìˆìŒ. hit.collider == null ì²´í¬í•¨.
 
-        //°ø°İ °¡´ÉÇÏ´Ù¸é °ø°İ
+        //ê³µê²© ê°€ëŠ¥í•˜ë‹¤ë©´ ê³µê²©
         if (hit && !_enemyBase.IsObstacleInLine(hit.distance))
         {
-            _timer = _enemyBase.battleTime; //Å¸ÀÌ¸Ó ¼³Á¤
+            _timer = _enemyBase.battleTime; //íƒ€ì´ë¨¸ ì„¤ì •
 
             if (hit.distance < _enemyBase.attackDistance && CanAttack())
             {
@@ -59,10 +59,10 @@ public class SkelectonBattleState : EnemyState<SkelectonStateEnum>
         float distance = Vector2.Distance(_player.transform.position, _enemyBase.transform.position);
 
 
-        //¾ÕÀÌ Àıº®ÀÌ°Å³ª ÀûÀÌ ±Ù°Å¸®¶ó¸é.
+        //ì•ì´ ì ˆë²½ì´ê±°ë‚˜ ì ì´ ê·¼ê±°ë¦¬ë¼ë©´.
         if (!_enemyBase.IsGroundDetected() || (distance <= _enemyBase.attackDistance))
         {
-            _enemyBase.StopImmediately(false);  //ºí·»µå Æ®¸®·Î °ª¿¡ µû¶ó Á¤Áö¿Í ÀÌµ¿ÀÌ ³ª¿À°Ô
+            _enemyBase.StopImmediately(false);  //ë¸”ë Œë“œ íŠ¸ë¦¬ë¡œ ê°’ì— ë”°ë¼ ì •ì§€ì™€ ì´ë™ì´ ë‚˜ì˜¤ê²Œ
             return;
         }
 
@@ -72,12 +72,12 @@ public class SkelectonBattleState : EnemyState<SkelectonStateEnum>
         }
         else
         {
-            // ÀüÅõ½Ã°£À» ÃÊ°úÇß°Å³ª ÀÎ½Ä°Å¸® ¹ÛÀ¸·Î ¹ş¾î³µ´Ù¸é
+            // ì „íˆ¬ì‹œê°„ì„ ì´ˆê³¼í–ˆê±°ë‚˜ ì¸ì‹ê±°ë¦¬ ë°–ìœ¼ë¡œ ë²—ì–´ë‚¬ë‹¤ë©´
             _stateMachine.ChangeState(SkelectonStateEnum.Idle); 
         }
     }
 
-    //Àû À§Ä¡¸¦ ¹Ù¶óº¸µµ·Ï ÄÚµå
+    //ì  ìœ„ì¹˜ë¥¼ ë°”ë¼ë³´ë„ë¡ ì½”ë“œ
     private void SetDirectionToEnemy()
     {
         _enemyBase.FlipController(_player.transform.position.x - _enemyBase.transform.position.x);

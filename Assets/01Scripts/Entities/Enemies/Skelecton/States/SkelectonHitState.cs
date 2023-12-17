@@ -12,7 +12,7 @@ public class SkelectonHitState : EnemyState<SkelectonStateEnum>
     public override void Enter()
     {
         base.Enter();
-        //ÈıÅ¬¸³Àº °è¼Ó Àç»ıµÇ¾î¾ß ÇÏ¹Ç·Î ÀÌ·±¹æ½ÄÀ¸·Î Ã³¸®
+        //í›í´ë¦½ì€ ê³„ì† ì¬ìƒë˜ì–´ì•¼ í•˜ë¯€ë¡œ ì´ëŸ°ë°©ì‹ìœ¼ë¡œ ì²˜ë¦¬
         _enemyBase.AnimatorCompo.Play(_hitClipNameHash, layer: -1, normalizedTime: 0);
     }
 
@@ -26,7 +26,7 @@ public class SkelectonHitState : EnemyState<SkelectonStateEnum>
         base.UpdateState();
         if (_triggerCalled)
         {
-            //¸Â¾Ò´Ù°¡ Ç®¸®¸é ÀüÅõ»óÅÂ·Î µé¾î°£´Ù.
+            //ë§ì•˜ë‹¤ê°€ í’€ë¦¬ë©´ ì „íˆ¬ìƒíƒœë¡œ ë“¤ì–´ê°„ë‹¤.
             _stateMachine.ChangeState(SkelectonStateEnum.Battle);
         }
     }

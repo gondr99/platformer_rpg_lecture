@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public delegate void CooldownInfoEvent(float current, float total);
@@ -58,7 +59,7 @@ public abstract class Skill : MonoBehaviour
         //자동으로 발생되는 스킬들을 이용하기 위해 만든 함수.
     }
 
-    public virtual Transform FindClosestEnemy(Transform checkTransform, LayerMask whatIsEnemy, float radius)
+    public virtual Transform FindClosestEnemy(Transform checkTransform, float radius)
     {
         Transform closestEnemy = null;
         int cnt = Physics2D.OverlapCircle(checkTransform.position, radius, new ContactFilter2D { layerMask = whatIsEnemy, useLayerMask = true}, _colliders);
@@ -76,5 +77,19 @@ public abstract class Skill : MonoBehaviour
         }
         
         return closestEnemy;
+    }
+
+    public List<Enemy> FindEnemiesInRange(Transform checkTransform, float radius)
+    {
+        int cnt = Physics2D.OverlapCircle(checkTransform.position, radius, new ContactFilter2D { layerMask = whatIsEnemy, useLayerMask = true}, _colliders);
+        List<Enemy> list = new List<Enemy>();
+
+        for (int i = 0; i < cnt; ++i)
+        {
+            if(_colliders[i].TryGetComponent<Enemy>(out Enemy enemy)) 
+                list.Add(enemy);
+        }
+
+        return list;
     }
 }

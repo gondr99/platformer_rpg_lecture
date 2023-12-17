@@ -52,7 +52,7 @@ public class CloneController : MonoBehaviour
     //생성되면 가장 가까운 적을 향하도록 함.
     private void FacingClosetTarget()
     {
-        _closestEnemy = _skill.FindClosestEnemy(transform, _damageCaster.whatIsEnemy, _skill.findEnemyRadius);        
+        _closestEnemy = _skill.FindClosestEnemy(transform, _skill.findEnemyRadius);        
 
         if (_closestEnemy != null)
         {

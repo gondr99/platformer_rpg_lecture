@@ -27,19 +27,19 @@ public class Health : MonoBehaviour, IDamageable
         _currentHealth = maxHealth;
     }
 
-    public void ApplyDamage(int damage, Vector2 attackDirection, Vector2 knockbackPower, Entity dealer)
+    public bool ApplyDamage(int damage, Vector2 attackDirection, Vector2 knockbackPower, Entity dealer)
     {
-        if (_owner.isDead) return; // if dead then return
+        if (_owner.isDead) return true; // if dead then return
 
         _currentHealth = Mathf.Clamp(_currentHealth - damage, 0, maxHealth);
         isHitByMelee = true;
         lastAttackDirection = (transform.position - dealer.transform.position).normalized;
 
         knockbackPower.x *= attackDirection.x; //y value stay to default
-        AfterHitFeedbacks(knockbackPower);
+        return AfterHitFeedbacks(knockbackPower);
     }
 
-    private void AfterHitFeedbacks(Vector2 knockbackPower)
+    private bool AfterHitFeedbacks(Vector2 knockbackPower)
     {
         OnHit?.Invoke();
         OnKnockBack?.Invoke(knockbackPower);
@@ -48,6 +48,9 @@ public class Health : MonoBehaviour, IDamageable
         {
             _owner.isDead = true;
             OnDead?.Invoke(knockbackPower);
+            return true;
         }
+
+        return false;
     }
 }

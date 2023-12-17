@@ -27,6 +27,11 @@ public class SwordSkill : Skill
     public float destroyTimer = 7f;
 
     //여기에 각종 정보들
+    [Header("Bouncing info")]
+    public float bounceSpeed = 20f;
+    public int bounceAmount = 4;
+    public float bounceGravity = 3f;
+    public float bouncingRadius = 10f;
     
     [Header("Aiming Dots")] 
     [SerializeField] private int _numberOfDots;
