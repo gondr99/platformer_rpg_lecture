@@ -44,6 +44,7 @@ public class SwordSkill : Skill
     public float spinGravity = 1;
     public float hitCooldown = 0.35f;
     public int maxHitTargetCount = 5;
+    public Vector2 spinKnockbackPower;
     
     [Header("Aiming Dots")] 
     [SerializeField] private int _numberOfDots;

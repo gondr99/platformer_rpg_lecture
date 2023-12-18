@@ -98,6 +98,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""UltiSkill"",
+                    ""type"": ""Button"",
+                    ""id"": ""dec5c3f6-c63f-4500-b779-d371ea6f10a3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -232,6 +241,17 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""ThrowSword"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""04e59a4f-71e6-4191-8b1a-b2dba33714b0"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UltiSkill"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -265,6 +285,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_Player_CounterAttack = m_Player.FindAction("CounterAttack", throwIfNotFound: true);
         m_Player_AimPoision = m_Player.FindAction("AimPoision", throwIfNotFound: true);
         m_Player_ThrowSword = m_Player.FindAction("ThrowSword", throwIfNotFound: true);
+        m_Player_UltiSkill = m_Player.FindAction("UltiSkill", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -334,6 +355,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_CounterAttack;
     private readonly InputAction m_Player_AimPoision;
     private readonly InputAction m_Player_ThrowSword;
+    private readonly InputAction m_Player_UltiSkill;
     public struct PlayerActions
     {
         private @Controls m_Wrapper;
@@ -346,6 +368,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @CounterAttack => m_Wrapper.m_Player_CounterAttack;
         public InputAction @AimPoision => m_Wrapper.m_Player_AimPoision;
         public InputAction @ThrowSword => m_Wrapper.m_Player_ThrowSword;
+        public InputAction @UltiSkill => m_Wrapper.m_Player_UltiSkill;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -379,6 +402,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @ThrowSword.started += instance.OnThrowSword;
             @ThrowSword.performed += instance.OnThrowSword;
             @ThrowSword.canceled += instance.OnThrowSword;
+            @UltiSkill.started += instance.OnUltiSkill;
+            @UltiSkill.performed += instance.OnUltiSkill;
+            @UltiSkill.canceled += instance.OnUltiSkill;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -407,6 +433,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @ThrowSword.started -= instance.OnThrowSword;
             @ThrowSword.performed -= instance.OnThrowSword;
             @ThrowSword.canceled -= instance.OnThrowSword;
+            @UltiSkill.started -= instance.OnUltiSkill;
+            @UltiSkill.performed -= instance.OnUltiSkill;
+            @UltiSkill.canceled -= instance.OnUltiSkill;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -443,5 +472,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         void OnCounterAttack(InputAction.CallbackContext context);
         void OnAimPoision(InputAction.CallbackContext context);
         void OnThrowSword(InputAction.CallbackContext context);
+        void OnUltiSkill(InputAction.CallbackContext context);
     }
 }

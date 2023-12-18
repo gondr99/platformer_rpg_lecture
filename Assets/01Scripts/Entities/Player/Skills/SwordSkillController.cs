@@ -35,9 +35,7 @@ public class SwordSkillController : MonoBehaviour
     private float _maxTravelDistance;
     private float _spinTimer;
     private bool _wasStopped;
-    private bool _isSpining;
     private float _hitTimer;
-    private float _hitCooldown;
     private float _spinXDirection; //스피너가 나가는 X방향.
     private Collider2D[] hitColliders;
     #endregion
@@ -153,7 +151,7 @@ public class SwordSkillController : MonoBehaviour
             _hitTimer -= Time.deltaTime;
             if (_hitTimer < 0)
             {
-                _hitTimer = _hitCooldown;
+                _hitTimer = _swordSkill.hitCooldown;
                 //여기서 데미지 주는 식.
                 int count = Physics2D.OverlapCircle(
                     transform.position,
@@ -245,6 +243,7 @@ public class SwordSkillController : MonoBehaviour
     private bool DamageToTarget(Enemy enemy)
     {
         Vector2 direction = (enemy.transform.position - transform.position).normalized;
+        
         int statDamage = 10; //나중에 Stat시스템을 통해 불러올거다.
 
         if (_swordSkill.swordSkillType == SwordSkillType.Pierce)
@@ -256,8 +255,10 @@ public class SwordSkillController : MonoBehaviour
         int damage = Mathf.RoundToInt( statDamage * _swordSkill.damageMultiplier ); //배율에 따라 증뎀.
         //데미지 줄때마다 소드 스킬 피드백 발동시키기.(소드는 UseSkill을 안써)
         SkillManager.Instance.UseSkillFeedback(PlayerSkill.Sword);
-        
-        return enemy.HealthCompo.ApplyDamage(damage, direction, _swordSkill.knockbackPower, _player);
+
+        bool isSpinSkill = _swordSkill.swordSkillType == SwordSkillType.Spin;
+        Vector2 knockbackPower = isSpinSkill ? _swordSkill.spinKnockbackPower : _swordSkill.knockbackPower;  
+        return enemy.HealthCompo.ApplyDamage(damage, direction, knockbackPower, _player);
     }
 
     private void StuckIntoTarget(Collider2D other)

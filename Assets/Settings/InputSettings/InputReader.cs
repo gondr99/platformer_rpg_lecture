@@ -12,6 +12,7 @@ public class InputReader : ScriptableObject, IPlayerActions
     public event Action PrimaryAttackEvent;
     public event Action CounterAttackEvent;
     public event Action<bool> ThrowSwordEvent;
+    public event Action UltiSkillEvent;
     #endregion
 
     #region input value section
@@ -80,5 +81,10 @@ public class InputReader : ScriptableObject, IPlayerActions
         {
             ThrowSwordEvent?.Invoke(false);
         }
+    }
+
+    public void OnUltiSkill(InputAction.CallbackContext context)
+    {
+        UltiSkillEvent?.Invoke();
     }
 }

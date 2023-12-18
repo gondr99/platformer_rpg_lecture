@@ -78,6 +78,6 @@ public class EnemySkelecton : Enemy
     protected override void HandleDead(Vector2 direction)
     {
         //direction은 차후 쓸수도 있어서 받아둠.
-        StateMachine.ChangeState(SkelectonStateEnum.Dead);
+        StateMachine.ChangeState(SkelectonStateEnum.Dead, true);
     }
 }
