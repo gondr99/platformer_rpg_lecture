@@ -61,7 +61,7 @@ public class PlayerGroundState : PlayerState
     {
         //이미 칼을 던진상태면 더이상 진행안함.
         SwordSkill swordSkill = SkillManager.Instance.GetSkill<SwordSkill>();
-        if (swordSkill == null || swordSkill.skillEnabled == false) 
+        if (swordSkill == null || swordSkill.skillEnabled == false || swordSkill.IsCooldown) 
             return;
         
         bool hasSwordAlready = swordSkill.generatedSword != null;

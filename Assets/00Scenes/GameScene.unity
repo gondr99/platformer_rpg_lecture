@@ -63722,7 +63722,7 @@ Transform:
   m_GameObject: {fileID: 1003363317}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -42.99, y: -6.61, z: -0.114488415}
+  m_LocalPosition: {x: -42.99, y: -10.54, z: -0.114488415}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -63923,7 +63923,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c628f2c2457bb54bb828f0ce9c45076, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 50
+  maxHealth: 10
   _currentHealth: 0
   isLastHitCritical: 0
   lastAttackDirection: {x: 0, y: 0}
@@ -64438,7 +64438,7 @@ Transform:
   m_GameObject: {fileID: 1337137892}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -39.36, y: -6.61, z: -0.114488415}
+  m_LocalPosition: {x: -39.36, y: -10.54, z: -0.114488415}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -65630,9 +65630,9 @@ MonoBehaviour:
   whatIsEnemy:
     serializedVersion: 2
     m_Bits: 256
-  _cooldown: 0
-  _maxCheckEnemy: 5
-  swordSkillType: 1
+  _cooldown: 5
+  _maxCheckEnemy: 10
+  swordSkillType: 3
   _swordPrefab: {fileID: 9144474719533883810, guid: ecc88ebbd8fe4574ead0e21c2e84d033, type: 3}
   _launchForce: {x: 35, y: 25}
   _swordGravity: 4.5
@@ -65646,6 +65646,14 @@ MonoBehaviour:
   bounceAmount: 4
   bounceGravity: 3
   bouncingRadius: 10
+  pierceAmount: 2
+  pierceGravity: 1
+  pierceDamageMultiplier: 2
+  maxTravelDistance: 7
+  spinDuration: 2
+  spinGravity: 1
+  hitCooldown: 0.35
+  maxHitTargetCount: 5
   _numberOfDots: 20
   _spaceBetweenDots: 0.07
   _dotPrefab: {fileID: 5009035605248436409, guid: c755ff8db906d844faf5040447ce5a34, type: 3}

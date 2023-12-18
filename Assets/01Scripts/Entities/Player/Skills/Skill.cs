@@ -14,6 +14,7 @@ public abstract class Skill : MonoBehaviour
     protected Player _player;
     protected Collider2D[] _colliders;
 
+    public bool IsCooldown => _cooldownTimer > 0f; 
     public event CooldownInfoEvent OnCooldownEvent;
 
     protected virtual void Start()
@@ -86,8 +87,11 @@ public abstract class Skill : MonoBehaviour
 
         for (int i = 0; i < cnt; ++i)
         {
-            if(_colliders[i].TryGetComponent<Enemy>(out Enemy enemy)) 
-                list.Add(enemy);
+            if (_colliders[i].TryGetComponent<Enemy>(out Enemy enemy))
+            {
+                if(!enemy.isDead) //사망하지 않은 적만 리스트에.
+                    list.Add(enemy);
+            }
         }
 
         return list;

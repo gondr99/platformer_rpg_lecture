@@ -33,6 +33,18 @@ public class SwordSkill : Skill
     public float bounceGravity = 3f;
     public float bouncingRadius = 10f;
     
+    [Header("Pierce info")] 
+    public int pierceAmount;
+    public float pierceGravity;
+    public float pierceDamageMultiplier = 2f;
+    
+    [Header("Spin info")]
+    public float maxTravelDistance = 7;
+    public float spinDuration = 2;
+    public float spinGravity = 1;
+    public float hitCooldown = 0.35f;
+    public int maxHitTargetCount = 5;
+    
     [Header("Aiming Dots")] 
     [SerializeField] private int _numberOfDots;
     [SerializeField] private float _spaceBetweenDots;
@@ -67,9 +79,21 @@ public class SwordSkill : Skill
         }
     }
     
-    //현재로선 해줄게 없음. 스킬 종류 설정이 안되었기 때문
     private void SetupGravity()
     {
+        if (swordSkillType == SwordSkillType.Bounce)
+        {
+            _swordGravity = bounceGravity;
+        }
+
+        if (swordSkillType == SwordSkillType.Pierce)
+        {
+            _swordGravity = pierceGravity;
+        }
+        if (swordSkillType == SwordSkillType.Spin)
+        {
+            _swordGravity = spinGravity;
+        }
     }
     
     public void DestroyGenerateSword()
@@ -100,6 +124,7 @@ public class SwordSkill : Skill
         _player.StateMachine.ChangeState(PlayerStateEnum.CatchSword);
         Destroy(generatedSword.gameObject);
         generatedSword = null;
+        _cooldownTimer = _cooldown;
     }
     
 

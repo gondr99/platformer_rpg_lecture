@@ -25,6 +25,23 @@ public class SwordSkillController : MonoBehaviour
     private int _currentBounceCount = 0;
 
     #endregion
+
+    #region pierce variable
+    private int _pierceAmount; //현재 관통한 횟수.
+    #endregion
+
+    #region spinner variables
+
+    private float _maxTravelDistance;
+    private float _spinTimer;
+    private bool _wasStopped;
+    private bool _isSpining;
+    private float _hitTimer;
+    private float _hitCooldown;
+    private float _spinXDirection; //스피너가 나가는 X방향.
+    private Collider2D[] hitColliders;
+    #endregion
+    
     
     private readonly int _spinHash = Animator.StringToHash("Spin");
     
@@ -35,6 +52,7 @@ public class SwordSkillController : MonoBehaviour
         _spriteRenderer = visualTrm.GetComponent<SpriteRenderer>();
         _rigidbody = GetComponent<Rigidbody2D>();
         _circleCollider = GetComponent<CircleCollider2D>();
+ 
     }
     
     public void SetupSword(Vector2 dir, float gravityScale, Player player, SwordSkill swordSkill, float returnSpeed)
@@ -44,8 +62,19 @@ public class SwordSkillController : MonoBehaviour
         _player = player;
         _swordSkill = swordSkill;
         _returnSpeed = returnSpeed;
+
+        _pierceAmount = swordSkill.pierceAmount; //관통횟수 저장
         
-        _animator.SetBool(_spinHash, true);
+        //관통소드일경우 회전하지 않게 해주고.
+        if(swordSkill.swordSkillType != SwordSkillType.Pierce)
+            _animator.SetBool(_spinHash, true);
+
+        if (swordSkill.swordSkillType == SwordSkillType.Spin)
+        {
+            _spinXDirection = Mathf.Clamp(_rigidbody.velocity.x, -1, 1);//노멀라이즈된 방향값.
+            hitColliders = new Collider2D[_swordSkill.maxHitTargetCount]; 
+        }
+        
         _lifeTime = _swordSkill.destroyTimer; //시간제한 설정
         _isDestroyed = false;
         
@@ -78,6 +107,11 @@ public class SwordSkillController : MonoBehaviour
             BounceProcess();
         }
 
+        if (_swordSkill.swordSkillType == SwordSkillType.Spin)
+        {
+            SpinProcess();
+        }
+
         _lifeTime -= Time.deltaTime;
         if (_lifeTime <= 0) //라이프타임이 끝났다면
         {
@@ -88,7 +122,63 @@ public class SwordSkillController : MonoBehaviour
         
     }
 
+    
     #region implement for sword type
+    private void SpinProcess()
+    {
+        if (!_wasStopped)
+        {
+            float distance = Vector2.Distance(_player.transform.position, transform.position);
+            if (distance > _swordSkill.maxTravelDistance )
+            {
+                StopSpinSword();
+            }
+        }
+
+        //이미 정지된 상태라면 갈갈이 시작.
+        if (_wasStopped)
+        {
+            _spinTimer -= Time.deltaTime;
+
+            //천천히 앞으로 전진
+            transform.position = Vector2.MoveTowards(
+                transform.position,
+                new Vector2(transform.position.x + _spinXDirection, transform.position.y), 1.5f * Time.deltaTime);
+
+            if (_spinTimer < 0)
+            {
+                _isReturning = true;
+            }
+
+            _hitTimer -= Time.deltaTime;
+            if (_hitTimer < 0)
+            {
+                _hitTimer = _hitCooldown;
+                //여기서 데미지 주는 식.
+                int count = Physics2D.OverlapCircle(
+                    transform.position,
+                    _circleCollider.radius + 0.5f, 
+                    new ContactFilter2D{layerMask = _swordSkill.whatIsEnemy, useLayerMask = true}, 
+                    hitColliders);
+                for (int i = 0; i < count; ++i)
+                {
+                    if (hitColliders[i].TryGetComponent<Enemy>(out Enemy enemy))
+                    {
+                        DamageToTarget(enemy);
+                    }
+                }
+            }
+        }
+    }
+    
+    //stop spin sword's forward
+    private void StopSpinSword()
+    {
+        _wasStopped = true;
+        _rigidbody.constraints = RigidbodyConstraints2D.FreezePosition;
+        _spinTimer = _swordSkill.spinDuration;
+    }
+    
     private void BounceProcess()
     {
         //적에게 맞아서 리스트를 뽑았다면.
@@ -107,11 +197,14 @@ public class SwordSkillController : MonoBehaviour
                 if (isDead)
                 {
                     _targetList.RemoveAt(_targetIndex);
-                    if (_targetList.Count <= 1) //남은 리스트가 1개 이하면 
+                    if (_targetList.Count <= 1) //남은 리스트가 1개 이하면
+                    {
+                        _isReturning = true;
                         return;
+                    }
                 }
-                else
-                    _targetIndex = (_targetIndex + 1) % _targetList.Count;
+                
+                _targetIndex = (_targetIndex + 1) % _targetList.Count;
                 ++_currentBounceCount;
                 //한계만큼 다 튕겼다면.
                 if (_currentBounceCount >= _swordSkill.bounceAmount)
@@ -120,6 +213,7 @@ public class SwordSkillController : MonoBehaviour
                 }
             }
         }
+        
     }
     
     #endregion
@@ -131,6 +225,7 @@ public class SwordSkillController : MonoBehaviour
 
         if (other.TryGetComponent<Enemy>(out Enemy enemy))
         {
+            if (enemy.isDead) return; //죽은 적은 무시.
             bool dead = DamageToTarget(enemy);
             if (_swordSkill.swordSkillType == SwordSkillType.Bounce && _targetList.Count <= 0)
             {
@@ -151,6 +246,12 @@ public class SwordSkillController : MonoBehaviour
     {
         Vector2 direction = (enemy.transform.position - transform.position).normalized;
         int statDamage = 10; //나중에 Stat시스템을 통해 불러올거다.
+
+        if (_swordSkill.swordSkillType == SwordSkillType.Pierce)
+        {
+            statDamage = Mathf.RoundToInt(statDamage * _swordSkill.pierceDamageMultiplier *
+                                          (_pierceAmount / (float)_swordSkill.pierceAmount));
+        }
         
         int damage = Mathf.RoundToInt( statDamage * _swordSkill.damageMultiplier ); //배율에 따라 증뎀.
         //데미지 줄때마다 소드 스킬 피드백 발동시키기.(소드는 UseSkill을 안써)
@@ -161,6 +262,22 @@ public class SwordSkillController : MonoBehaviour
 
     private void StuckIntoTarget(Collider2D other)
     {
+        bool isEnemy = other.GetComponent<Enemy>() != null;
+        if (_pierceAmount > 0 && isEnemy)
+        {
+            //적에게 맞혔으나 _pierce횟수가 더 남아있다면 피어싱
+            --_pierceAmount;
+            return;
+        }
+        
+        //스핀검이 최초로 적과 접지하는 순간 스핀을 멈추고 갈갈이 
+        if (_swordSkill.swordSkillType == SwordSkillType.Spin && isEnemy)
+        {
+            if(!_wasStopped)
+                StopSpinSword();
+            return;
+        }
+        
         _canSpin = false; //더이상 회전하지 않게 
         _circleCollider.enabled = false;
 
