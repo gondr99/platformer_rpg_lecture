@@ -6,4 +6,6 @@ public class PlayerManager : MonoSingleton<PlayerManager>
 
     public Player Player => _player;
     public Transform PlayerTrm => _player.transform;
+    
+    
 }

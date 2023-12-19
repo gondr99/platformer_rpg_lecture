@@ -16,6 +16,8 @@ public class BlackholeSkill : Skill
 
     public float maxRiffleCount = 2;
     public float maxRiffleSpeed = 1f;
+
+    public bool isReadyToAttack;
     
     public event Action SkillEffectEnd;
     
@@ -37,7 +39,7 @@ public class BlackholeSkill : Skill
     public void BlackholeFieldOpen(Vector3 position)
     {
         _blackholeSkill.transform.position = position;
-        _blackholeSkill.SetUpSkill(this);
+        _blackholeSkill.SetUpSkill();
         _blackholeSkill.gameObject.SetActive(true);
     }
 

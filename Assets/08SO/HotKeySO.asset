@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: HotKeySO
+  m_EditorClassIdentifier: Assembly-CSharp::HoyKeyIconSO
+  keySprites:
+  - key: 31
+    sprite: {fileID: -1386189403, guid: 74f574612b16ebf4085d4e690ef5bf02, type: 3}
+  - key: 37
+    sprite: {fileID: -1884851578, guid: 74f574612b16ebf4085d4e690ef5bf02, type: 3}
+  - key: 19
+    sprite: {fileID: -1520039939, guid: 74f574612b16ebf4085d4e690ef5bf02, type: 3}
+  - key: 15
+    sprite: {fileID: -1089461880, guid: 74f574612b16ebf4085d4e690ef5bf02, type: 3}
+  - key: 33
+    sprite: {fileID: 1609426553, guid: 74f574612b16ebf4085d4e690ef5bf02, type: 3}
+  - key: 18
+    sprite: {fileID: 1028749658, guid: 74f574612b16ebf4085d4e690ef5bf02, type: 3}

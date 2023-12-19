@@ -6,8 +6,8 @@ public enum PlayerSkill
     Dash = 1,
     Clone = 2,
     Sword = 3,
-    //Blackhole = 4,
-    //Crystal = 5,
+    Blackhole = 4,
+    Crystal = 5,
     //ThunderStrike = 6
 }
 

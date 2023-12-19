@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using UnityEngine;
 
 public class Player : Entity
@@ -53,11 +54,15 @@ public class Player : Entity
     private void OnEnable()
     {
         PlayerInput.DashEvent += HandleDashEvent;
+        PlayerInput.UltiSkillEvent += HandleUltiSkillEvent;
+        PlayerInput.CrystalSkillEvent += HandleCrystalSkillEvent;
     }
 
     private void OnDisable()
     {
         PlayerInput.DashEvent -= HandleDashEvent;
+        PlayerInput.UltiSkillEvent -= HandleUltiSkillEvent;
+        PlayerInput.CrystalSkillEvent -= HandleCrystalSkillEvent;
     }
 
     private void HandleDashEvent()
@@ -69,6 +74,23 @@ public class Player : Entity
         {
             StateMachine.ChangeState(PlayerStateEnum.Dash);
         }
+    }
+    
+    private void HandleUltiSkillEvent()
+    {
+        BlackholeSkill skill = SkillManager.Instance.GetSkill<BlackholeSkill>(); 
+        if (skill.AttemptUseSkill())
+        {
+            StateMachine.ChangeState(PlayerStateEnum.Blackhole);
+        }else if (skill.isReadyToAttack)
+        {
+            skill.ReleaseAttack();
+        }
+    }
+
+    private void HandleCrystalSkillEvent()
+    {
+        SkillManager.Instance.GetSkill<CrystalSkill>()?.AttemptUseSkill();
     }
     #endregion
 
@@ -99,6 +121,12 @@ public class Player : Entity
 
     public void AnimationFinishTrigger() => StateMachine.CurrentState.AnimationFinishTrigger();
 
+    public void FadePlayer(bool fadeOut, float sec)
+    {
+        float endValue = fadeOut ? 0 : 1f;
+        SpriteRendererCompo.DOFade(endValue, sec);
+    }
+    
     public override void Stun(float time)
     {
         //currently do nothing here!

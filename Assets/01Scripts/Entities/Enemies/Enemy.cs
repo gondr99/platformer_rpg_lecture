@@ -18,9 +18,15 @@ public abstract class Enemy : Entity
     public float attackDistance;
     public float attackCooldown;
     [HideInInspector] public float lastTimeAttacked;
-
-
+    
     protected int _lastAnimationBoolHash; //마지막으로 재생된 애니메이션 해시
+
+    #region freeze variable
+
+    protected bool _isFreeze = false; //얼어있는 상태
+    protected bool _isFrozenWithoutTimer = false; //시간제한 없이 프리즈 시킬때
+
+    #endregion
 
     protected override void Awake()
     {
@@ -75,6 +81,41 @@ public abstract class Enemy : Entity
     #endregion
 
 
+    #region Freeze logic
+
+    public virtual void FreezeTime(bool isFreeze, bool isFreezeWithoutTimer = false)
+    {
+        if(isFreezeWithoutTimer)
+            _isFrozenWithoutTimer = isFreezeWithoutTimer;
+        
+        _isFreeze = isFreeze;
+        if (_isFreeze)
+        {
+            moveSpeed = 0;
+            AnimatorCompo.speed = 0;
+        }
+        else
+        {
+            moveSpeed = _defaultMoveSpeed;
+            AnimatorCompo.speed = 1;
+            _isFrozenWithoutTimer = false;
+        }
+    }
+
+    public virtual void FreezeTimeOfr(float freezeTime)
+    {
+        FreezeTime(true); //freeze enemy
+        StartDelayCallback(freezeTime, () =>
+        {
+            if (!_isFrozenWithoutTimer)
+            {
+                FreezeTime(false); //unfreeze when not perminant freezing state
+            }
+        });
+    }
+
+    #endregion
+    
 #if UNITY_EDITOR
     protected override void OnDrawGizmos()
     {

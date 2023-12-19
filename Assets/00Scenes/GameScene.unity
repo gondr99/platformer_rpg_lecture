@@ -63722,7 +63722,7 @@ Transform:
   m_GameObject: {fileID: 1003363317}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -42.99, y: -10.54, z: -0.114488415}
+  m_LocalPosition: {x: -55.06, y: -10.54, z: -0.114488415}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -64438,7 +64438,7 @@ Transform:
   m_GameObject: {fileID: 1337137892}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -39.36, y: -10.54, z: -0.114488415}
+  m_LocalPosition: {x: -43.04, y: -6.37, z: -0.114488415}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -65531,6 +65531,8 @@ GameObject:
   - component: {fileID: 2023334747}
   - component: {fileID: 2023334749}
   - component: {fileID: 2023334750}
+  - component: {fileID: 2023334751}
+  - component: {fileID: 2023334752}
   m_Layer: 0
   m_Name: SkillManager
   m_TagString: Untagged
@@ -65661,6 +65663,64 @@ MonoBehaviour:
   _dotsParent: {fileID: 1590605501}
   generatedSword: {fileID: 0}
   canFreeze: 0
+--- !u!114 &2023334751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2023334745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 380394c82b79fd544b483dfb662ced19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillEnabled: 1
+  whatIsEnemy:
+    serializedVersion: 2
+    m_Bits: 256
+  _cooldown: 0
+  _maxCheckEnemy: 5
+  _blackholeSkillPrefab: {fileID: 1633775120016676878, guid: f6011bc6ee607ed48a880d5e0270d9d1, type: 3}
+  amountOfAttack: 4
+  cloneAttackCooldown: 0.3
+  holdBlackholeTime: 2
+  maxSize: 15
+  growSpeed: 3
+  maxRiffleCount: 2
+  maxRiffleSpeed: 1
+  isReadyToAttack: 0
+--- !u!114 &2023334752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2023334745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc119279f8a27a44b9cddaaed49e5e2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillEnabled: 1
+  whatIsEnemy:
+    serializedVersion: 2
+    m_Bits: 256
+  _cooldown: 2
+  _maxCheckEnemy: 5
+  _crystalPrefab: {fileID: 4771165163544834125, guid: 96dfc6694b3f9ed4082e08c2fdb925e8, type: 3}
+  timeOut: 5
+  damageMultiplier: 1
+  knockbackPower: {x: 3, y: 6}
+  canExplode: 0
+  explosionRadius: 3
+  canMoveToEnemy: 0
+  moveSpeed: 0
+  findEnemyRadius: 10
+  isMultipleCrystal: 0
+  amountOfCrystal: 0
+  multiCrystalCooldown: 0
+  crystalList: []
 --- !u!1 &2041423533
 GameObject:
   m_ObjectHideFlags: 0
