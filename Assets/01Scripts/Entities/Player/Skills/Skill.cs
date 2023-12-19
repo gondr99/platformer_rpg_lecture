@@ -69,11 +69,15 @@ public abstract class Skill : MonoBehaviour
 
         for(int i = 0; i < cnt; ++i)
         {
-            float distanceToEnemy = Vector2.Distance(checkTransform.position, _colliders[i].transform.position);
-            if (distanceToEnemy < closestDistance)
+            if (_colliders[i].TryGetComponent<Enemy>(out Enemy enemy))
             {
-                closestDistance = distanceToEnemy;
-                closestEnemy = _colliders[i].transform;
+                if(enemy.isDead) continue;
+                float distanceToEnemy = Vector2.Distance(checkTransform.position, _colliders[i].transform.position);
+                if (distanceToEnemy < closestDistance)
+                {
+                    closestDistance = distanceToEnemy;
+                    closestEnemy = _colliders[i].transform;
+                }
             }
         }
         

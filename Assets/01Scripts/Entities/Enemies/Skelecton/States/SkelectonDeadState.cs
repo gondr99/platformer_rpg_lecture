@@ -10,6 +10,7 @@ public class SkelectonDeadState : EnemyState<SkelectonStateEnum>
     public override void Enter()
     {
         base.Enter();
+        _enemyBase.isDead = true;
         _enemyBase.FreezeTime(false);
         _enemyBase.StartDelayCallback(3f, () =>
         {

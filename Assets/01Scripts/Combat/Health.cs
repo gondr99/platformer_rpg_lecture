@@ -46,11 +46,17 @@ public class Health : MonoBehaviour, IDamageable
 
         if (_currentHealth <= 0 )
         {
-            _owner.isDead = true;
             OnDead?.Invoke(knockbackPower);
             return true;
         }
 
         return false;
+    }
+
+    public void ApplyMagicDamage(int magicDamage, Vector2 attackDirection, Vector2 knockbackPower, Player player)
+    {
+        _currentHealth = Mathf.Clamp(_currentHealth - magicDamage, 0, maxHealth);
+        knockbackPower.x *= attackDirection.x; //y값은 고정으로.
+        AfterHitFeedbacks(knockbackPower);
     }
 }

@@ -26,7 +26,7 @@ public abstract class Entity : MonoBehaviour
     public int FacingDirection { get; private set; } = 1; //오른쪽을 향하고 있을때 1
     public Action<int> OnFlip;
 
-    [HideInInspector] public bool isDead;
+    public bool isDead;
 
     [Header("Knockback")]
     [HideInInspector] public bool isKnockbacked;

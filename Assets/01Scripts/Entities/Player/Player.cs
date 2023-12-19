@@ -18,8 +18,8 @@ public class Player : Entity
     public float attackSpeed = 1f;
     public float counterAttackDuration = 0.2f;
     public Vector2[] attackMovement; //attack movement when combo attack
+    public Transform backTrm; //후면에 따라다니는 오브젝트를 위한
     [HideInInspector] public int currentComboCounter = 0;
-
 
     public PlayerStateMachine StateMachine { get; private set; }
     [SerializeField] private InputReader _inputReader;
