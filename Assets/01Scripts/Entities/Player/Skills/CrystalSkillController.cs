@@ -135,7 +135,7 @@ public class CrystalSkillController : MonoBehaviour
         List<Enemy> enemies = _skill.FindEnemiesInRange(transform, _skill.explosionRadius);
 
         Player player = PlayerManager.Instance.Player;
-        int damage = 10; //나중에 스탯으로부터 가져와야 해
+        int damage = player.PStat.GetMagicDamage(StatType.IceDamage) + player.PStat.GetMagicDamage(StatType.LightingDamage); 
         foreach (Enemy enemy in enemies) 
         {
             Vector2 dir = enemy.transform.position - transform.position;

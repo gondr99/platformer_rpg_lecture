@@ -244,7 +244,7 @@ public class SwordSkillController : MonoBehaviour
     {
         Vector2 direction = (enemy.transform.position - transform.position).normalized;
         
-        int statDamage = 10; //나중에 Stat시스템을 통해 불러올거다.
+        int statDamage = _player.PStat.GetMeleeDamage(); 
 
         if (_swordSkill.swordSkillType == SwordSkillType.Pierce)
         {

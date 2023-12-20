@@ -1,6 +1,7 @@
 using System;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Player : Entity
 {
@@ -23,8 +24,10 @@ public class Player : Entity
 
     public PlayerStateMachine StateMachine { get; private set; }
     [SerializeField] private InputReader _inputReader;
-    public InputReader PlayerInput => _inputReader; 
+    public InputReader PlayerInput => _inputReader;
 
+    //player stat
+    public PlayerStat PStat => _characterStat as PlayerStat;
 
     protected override void Awake()
     {
@@ -107,6 +110,11 @@ public class Player : Entity
     protected void Update()
     {
         StateMachine.CurrentState.UpdateState();
+
+        if (Keyboard.current.pKey.wasPressedThisFrame)
+        {
+            PStat.IncreaseStatBy(10, 3f, PStat.GetStatByType(StatType.Damage));
+        }
     }
 
     public override void Attack()

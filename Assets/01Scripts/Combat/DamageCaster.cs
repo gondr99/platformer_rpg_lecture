@@ -42,7 +42,8 @@ public class DamageCaster : MonoBehaviour
             
             if (_hitResult[i].TryGetComponent<IDamageable>(out IDamageable health))
             {
-                int damage = 5; //temporary 5 fixed, after make stat it will be fixd;
+
+                int damage =  Mathf.RoundToInt(_owner.Stat.GetMeleeDamage() * _damageMultiplier);
 
                 damage = CalculateDamage(damage); //계산증뎀
                 Vector2 power = knockbackPower[combo];
@@ -55,7 +56,7 @@ public class DamageCaster : MonoBehaviour
 
     public void CastDamageWithStun(Enemy target, float multiplier, Vector2 attackDireciton, Vector2 stunPower, float stunTime)
     {
-        int damage = Mathf.CeilToInt( 5 * multiplier); //temporary 5 fixed, after make stat it will be fixd;
+        int damage = Mathf.CeilToInt( _owner.Stat.GetMeleeDamage() * multiplier); 
         damage = CalculateDamage(damage);
         target.HealthCompo.ApplyDamage(damage, attackDireciton, stunPower, _owner);
         target.Stun(stunTime);

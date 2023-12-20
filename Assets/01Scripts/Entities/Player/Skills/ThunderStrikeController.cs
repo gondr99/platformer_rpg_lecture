@@ -58,7 +58,7 @@ public class ThunderStrikeController : MonoBehaviour
 
         Player player = PlayerManager.Instance.Player;
 
-        int magicDamage = 10;
+        int magicDamage = player.PStat.GetMagicDamage(StatType.LightingDamage);
         
         _target.HealthCompo.ApplyMagicDamage(
             magicDamage,

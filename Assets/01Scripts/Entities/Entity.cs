@@ -20,6 +20,9 @@ public abstract class Entity : MonoBehaviour
     public CapsuleCollider2D Collder2DCompo { get; private set; }
     public DamageCaster DamageCasterCompo { get; private set; }
     public Health HealthCompo { get; private set; }
+    
+    [SerializeField] protected CharacterStat _characterStat;
+    public CharacterStat Stat => _characterStat;
     #endregion
 
     public bool CanStateChangeable { get; set; } = true; //state can be change when value is true
@@ -42,6 +45,8 @@ public abstract class Entity : MonoBehaviour
     [Header("Feedback event")]
     public UnityEvent HitEvent;
 
+    
+
 
     public Vector3 GroundCheckerPosition => _groundChecker.position;
 
@@ -61,6 +66,9 @@ public abstract class Entity : MonoBehaviour
         HealthCompo.OnHit += HandleHitEvent;
         HealthCompo.OnKnockBack += HandleKnockbackEvent;
         HealthCompo.OnDead += HandleDead;
+        
+        _characterStat = Instantiate(_characterStat); //복제본으로 탑재.
+        _characterStat.SetOwner(this); //자기를 오너로 설정
     }
 
     protected virtual void OnDestroy()
