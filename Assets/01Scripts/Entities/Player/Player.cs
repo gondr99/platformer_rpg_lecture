@@ -116,6 +116,8 @@ public class Player : Entity
         if (hitSuccess)
         {
             //hit success item effect must implementing here
+            if(currentComboCounter == 2)
+                SkillManager.Instance.GetSkill<ThunderStrikeSkill>().AttemptUseSkill();
         }
     }
 

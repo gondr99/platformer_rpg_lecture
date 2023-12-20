@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -42,6 +42,8 @@ public abstract class Entity : MonoBehaviour
     [Header("Feedback event")]
     public UnityEvent HitEvent;
 
+
+    public Vector3 GroundCheckerPosition => _groundChecker.position;
 
     protected virtual void Awake()
     {

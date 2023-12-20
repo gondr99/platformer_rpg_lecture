@@ -8,7 +8,7 @@ public enum PlayerSkill
     Sword = 3,
     Blackhole = 4,
     Crystal = 5,
-    //ThunderStrike = 6
+    ThunderStrike = 6
 }
 
 public class SkillManager : MonoSingleton<SkillManager>

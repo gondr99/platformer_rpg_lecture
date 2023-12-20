@@ -65566,6 +65566,7 @@ GameObject:
   - component: {fileID: 2023334750}
   - component: {fileID: 2023334751}
   - component: {fileID: 2023334752}
+  - component: {fileID: 2023334753}
   m_Layer: 0
   m_Name: SkillManager
   m_TagString: Untagged
@@ -65753,6 +65754,28 @@ MonoBehaviour:
   amountOfCrystal: 3
   multiCrystalCooldown: 6
   crystalList: []
+--- !u!114 &2023334753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2023334745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38dcb12a4c3f0f64bae92d32c9179263, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillEnabled: 1
+  whatIsEnemy:
+    serializedVersion: 2
+    m_Bits: 256
+  _cooldown: 5
+  _maxCheckEnemy: 5
+  _skillPrefab: {fileID: 5529267599687134723, guid: 5f1aed82131612346b5f9320bd3339c2, type: 3}
+  effectRadius: 15
+  activePercent: 100
+  amountOfThunder: 1
 --- !u!1 &2041423533
 GameObject:
   m_ObjectHideFlags: 0
