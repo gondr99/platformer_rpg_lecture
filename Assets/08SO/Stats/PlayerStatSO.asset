@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3cc1880f94e7e74db18cc9b18202040, type: 3}
+  m_Name: PlayerStatSO
+  m_EditorClassIdentifier: 
+  strength:
+    _baseValue: 5
+    modifiers: 
+  agility:
+    _baseValue: 5
+    modifiers: 
+  intelligence:
+    _baseValue: 5
+    modifiers: 
+  vitality:
+    _baseValue: 5
+    modifiers: 
+  maxHealth:
+    _baseValue: 0
+    modifiers: 
+  armor:
+    _baseValue: 0
+    modifiers: 
+  evasion:
+    _baseValue: 0
+    modifiers: 
+  magicResistance:
+    _baseValue: 0
+    modifiers: 
+  damage:
+    _baseValue: 5
+    modifiers: 
+  criticalChance:
+    _baseValue: 5
+    modifiers: 
+  criticalDamage:
+    _baseValue: 120
+    modifiers: 
+  fireDamage:
+    _baseValue: 0
+    modifiers: 
+  ignitePercent:
+    _baseValue: 0
+    modifiers: 
+  iceDamage:
+    _baseValue: 0
+    modifiers: 
+  chillPercent:
+    _baseValue: 0
+    modifiers: 
+  lightingDamage:
+    _baseValue: 0
+    modifiers: 
+  shockPercent:
+    _baseValue: 0
+    modifiers: 
+  ailmentDuration:
+    _baseValue: 0
+    modifiers: 
