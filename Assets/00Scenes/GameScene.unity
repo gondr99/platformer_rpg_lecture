@@ -29252,6 +29252,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &626021947 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3006299239064111789, guid: e552db535c64f7949b888b3b07bcb840, type: 3}
+  m_PrefabInstance: {fileID: 3935506419216294418}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &626021948 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3283127736718660774, guid: e552db535c64f7949b888b3b07bcb840, type: 3}
+  m_PrefabInstance: {fileID: 3935506419216294418}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d95144a2c721c844ab9e017459a6b86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &642912747
 GameObject:
   m_ObjectHideFlags: 0
@@ -63320,6 +63336,7 @@ Transform:
   - {fileID: 662425979}
   - {fileID: 1242282893}
   - {fileID: 1610899782}
+  - {fileID: 626021947}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1003363321
@@ -63390,9 +63407,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 50
   _currentHealth: 0
+  ailmentStat:
+    currentAilment: 0
   isLastHitCritical: 0
   lastAttackDirection: {x: 0, y: 0}
   isHitByMelee: 0
+  OnAilmentChanged:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 626021948}
+        m_TargetAssemblyTypeName: EntityFXPlayer, Assembly-CSharp
+        m_MethodName: HandleAilmentChange
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1055314709
 GameObject:
   m_ObjectHideFlags: 3
@@ -64206,9 +64240,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   _currentHealth: 0
+  ailmentStat:
+    currentAilment: 0
   isLastHitCritical: 0
   lastAttackDirection: {x: 0, y: 0}
   isHitByMelee: 0
+  OnAilmentChanged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1835200059
 GameObject:
   m_ObjectHideFlags: 0
@@ -65071,6 +65110,67 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1001 &3935506419216294418
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1003363320}
+    m_Modifications:
+    - target: {fileID: 3006299239064111789, guid: e552db535c64f7949b888b3b07bcb840, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3006299239064111789, guid: e552db535c64f7949b888b3b07bcb840, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3006299239064111789, guid: e552db535c64f7949b888b3b07bcb840, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3006299239064111789, guid: e552db535c64f7949b888b3b07bcb840, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3006299239064111789, guid: e552db535c64f7949b888b3b07bcb840, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3006299239064111789, guid: e552db535c64f7949b888b3b07bcb840, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3006299239064111789, guid: e552db535c64f7949b888b3b07bcb840, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3006299239064111789, guid: e552db535c64f7949b888b3b07bcb840, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3006299239064111789, guid: e552db535c64f7949b888b3b07bcb840, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3006299239064111789, guid: e552db535c64f7949b888b3b07bcb840, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3283127736718660774, guid: e552db535c64f7949b888b3b07bcb840, type: 3}
+      propertyPath: _spriteRenderer
+      value: 
+      objectReference: {fileID: 426829343}
+    - target: {fileID: 5649605744772746521, guid: e552db535c64f7949b888b3b07bcb840, type: 3}
+      propertyPath: m_Name
+      value: EntityFX
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e552db535c64f7949b888b3b07bcb840, type: 3}
 --- !u!1001 &7014517563375472614
 PrefabInstance:
   m_ObjectHideFlags: 0

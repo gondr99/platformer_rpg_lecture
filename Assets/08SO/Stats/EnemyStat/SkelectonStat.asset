@@ -28,7 +28,7 @@ MonoBehaviour:
     _baseValue: 70
     modifiers: 
   armor:
-    _baseValue: 0
+    _baseValue: 1
     modifiers: 
   evasion:
     _baseValue: 0

@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 public class Health : MonoBehaviour, IDamageable
 {
@@ -44,9 +45,8 @@ public class Health : MonoBehaviour, IDamageable
     private void HandleDotDamageEvent(Ailment ailmentType, int damage)
     {
         Debug.Log($"{ailmentType.ToString()} dot damaged : {damage}");
-        OnHit?.Invoke();
         _currentHealth = Mathf.Clamp(_currentHealth - damage, 0, maxHealth);
-        AfterHitFeedbacks(Vector2.zero);
+        AfterHitFeedbacks(Vector2.zero, false);
     }
 
     //상태이상 변경관리
@@ -64,12 +64,27 @@ public class Health : MonoBehaviour, IDamageable
     protected void Update()
     {
         ailmentStat.UpdateAilment(); //질병 업데이트
+
+        if(Keyboard.current.pKey.wasPressedThisFrame)
+        {
+            SetAilment(Ailment.Ignited, 4f, 2);
+        }
+
+        if (Keyboard.current.oKey.wasPressedThisFrame)
+        {
+            SetAilment(Ailment.Chilled, 4f, 0);
+        }
+
+        if (Keyboard.current.iKey.wasPressedThisFrame)
+        {
+            SetAilment(Ailment.Shocked, 4f, 0);
+        }
     }
 
     public void SetOwner(Entity owner)
     {
         _owner = owner;
-        _currentHealth = maxHealth;
+        _currentHealth = maxHealth = owner.Stat.GetMaxHealth();
     }
 
     public bool ApplyDamage(int damage, Vector2 attackDirection, Vector2 knockbackPower, Entity dealer)
@@ -111,10 +126,13 @@ public class Health : MonoBehaviour, IDamageable
         AfterHitFeedbacks(knockbackPower);
     }
 
-    private bool AfterHitFeedbacks(Vector2 knockbackPower)
+    private bool AfterHitFeedbacks(Vector2 knockbackPower, bool withFeedback = true)
     {
-        OnHit?.Invoke();
-        OnKnockBack?.Invoke(knockbackPower);
+        if (withFeedback)
+        {
+            OnHit?.Invoke();
+            OnKnockBack?.Invoke(knockbackPower);
+        }
 
         if (_currentHealth <= 0 )
         {

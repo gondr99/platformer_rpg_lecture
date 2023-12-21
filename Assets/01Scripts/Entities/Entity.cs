@@ -46,9 +46,10 @@ public abstract class Entity : MonoBehaviour
     public UnityEvent HitEvent;
 
     
-
-
     public Vector3 GroundCheckerPosition => _groundChecker.position;
+
+    public abstract void SlowEntityBy(float percent); //슬로우는 자식들이 구현.
+    public abstract void ReturnDefaultSpeed();
 
     protected virtual void Awake()
     {
@@ -66,6 +67,7 @@ public abstract class Entity : MonoBehaviour
         HealthCompo.OnHit += HandleHitEvent;
         HealthCompo.OnKnockBack += HandleKnockbackEvent;
         HealthCompo.OnDead += HandleDead;
+        HealthCompo.OnAilmentChanged.AddListener(HandleAilmentChanged);
         
         _characterStat = Instantiate(_characterStat); //복제본으로 탑재.
         _characterStat.SetOwner(this); //자기를 오너로 설정
@@ -76,6 +78,7 @@ public abstract class Entity : MonoBehaviour
         HealthCompo.OnHit -= HandleHitEvent;
         HealthCompo.OnKnockBack -= HandleKnockbackEvent;
         HealthCompo.OnDead -= HandleDead;
+        HealthCompo.OnAilmentChanged.RemoveListener(HandleAilmentChanged);
     }
 
     public abstract void Attack();
@@ -100,6 +103,18 @@ public abstract class Entity : MonoBehaviour
         _knockbackCoroutine  = StartDelayCallback(_knockbackDuration, () => isKnockbacked = false);
     }
 
+    private void HandleAilmentChanged(Ailment oldAilment, Ailment newAilment)
+    {
+        float magicRegistance = Stat.GetMagicRegistance();
+        if( (newAilment & Ailment.Chilled) > 0 )
+        {
+            SlowEntityBy(0.5f * magicRegistance);
+        }
+        else
+        {
+            ReturnDefaultSpeed();
+        }
+    }
 
     #endregion
 

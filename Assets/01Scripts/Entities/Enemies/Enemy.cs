@@ -56,6 +56,19 @@ public abstract class Enemy : Entity
 
     public abstract void AnimationFinishTrigger();
 
+    public override void SlowEntityBy(float percent)
+    {
+        float slowedSpeed = moveSpeed * (1 - percent);
+        if (moveSpeed <= slowedSpeed) return; //중복 적용 막아.
+        moveSpeed = slowedSpeed;
+        AnimatorCompo.speed = 1 - percent;
+    }
+
+    public override void ReturnDefaultSpeed()
+    {
+        AnimatorCompo.speed = 1f;
+        moveSpeed = _defaultMoveSpeed;
+    }
 
     #region counter attack region
     public virtual void OpenCounterAttackWindow()

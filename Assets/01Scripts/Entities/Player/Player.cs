@@ -146,4 +146,24 @@ public class Player : Entity
     {
         //currently do nothing here!
     }
+
+
+
+    public override void SlowEntityBy(float percent)
+    {
+        float slowedSpeed = moveSpeed * (1 - percent);
+        if (moveSpeed <= slowedSpeed) return; //이미 슬로우 상태면 추가 적용 없이 종료.
+        moveSpeed = slowedSpeed;
+        jumpForce *= 1 - percent;
+        dashSpeed *= 1 - percent;
+        AnimatorCompo.speed *= 1 - percent;
+    }
+
+    public override void ReturnDefaultSpeed()
+    {
+        moveSpeed = _defaultMoveSpeed;
+        jumpForce = _defaultJumpForce;
+        dashSpeed = _defaultDashSpeed;
+        AnimatorCompo.speed = 1f;
+    }
 }

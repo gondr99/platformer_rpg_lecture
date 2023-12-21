@@ -15,7 +15,7 @@ public abstract class CharacterStat : ScriptableObject
     public Stat maxHealth; //체력
     public Stat armor; //방어도
     public Stat evasion; //회피도
-    public Stat magicResistance; //마법방어
+    public Stat magicResistance; //마법방어 (저항 퍼센트로 이 값만큼 각종 데미지 저항)
 
     [Header("Offensive stats")]
     public Stat damage;
@@ -76,7 +76,8 @@ public abstract class CharacterStat : ScriptableObject
 
     public int ArmoredDamage(int incomingDamage)
     {
-        float multiplier = 1f; //동상일때는 20% 아머 피어싱.차후 구현
+        //동상일때는 20% 아머 피어싱.차후 구현
+        float multiplier = _owner.HealthCompo.ailmentStat.HasAilment(Ailment.Chilled) ? 0.8f : 1f; 
         return Mathf.Max(1, Mathf.RoundToInt(incomingDamage - armor.GetValue() * multiplier));
     }
 
@@ -106,6 +107,11 @@ public abstract class CharacterStat : ScriptableObject
 
         //지능에 해당 매직 데미지를 더한 값을 리턴
         return value + intelligence.GetValue();
+    }
+
+    public virtual float GetMagicRegistance()
+    {
+        return (100 - magicResistance.GetValue()) * 0.01f;
     }
 
     public int GetMaxHealth()

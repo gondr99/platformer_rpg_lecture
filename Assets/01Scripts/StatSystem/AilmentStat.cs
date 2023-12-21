@@ -27,7 +27,7 @@ public class AilmentStat
     public event AilmentChange AilmentChangeEvent; // 상태이상 종료시 발생
 
     private float _igniteTimer;
-    private float _igniteDamageCooldown = 0.5f; //도트데미지는 0.5초틱으로
+    private float _igniteDamageCooldown = 1f; //도트데미지는 1초틱으로
     
     public AilmentStat()
     {

@@ -46,11 +46,11 @@ Material:
     m_Ints: []
     m_Floats:
     - _BlinkValue: 0
-    - _EffectIntensity: 1
+    - _EffectIntensity: 1.35
     - _IsEffect: 0
     m_Colors:
     - _BlinkColor: {r: 1.720795, g: 1.720795, b: 1.720795, a: 1}
-    - _EffectColor: {r: 1, g: 0.004716992, b: 0.004716992, a: 0}
+    - _EffectColor: {r: 2, g: 0.009433984, b: 0.009433984, a: 0}
     - _EmissionColor: {r: 4.2370944, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &6938193625711677663
