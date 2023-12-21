@@ -17,12 +17,14 @@ public class PlayerDashState : PlayerState
         _dashStartTime = Time.time;
 
         SkillManager.Instance.GetSkill<CloneSkill>()?.CreateCloneOnDashStart();
+        _player.FXPlayer.SetAfterImageMode(true);
     }
 
     public override void Exit()
     {
         _player.StopImmediately(false);
         SkillManager.Instance.GetSkill<CloneSkill>()?.CreateCloneOnDashOver();
+        _player.FXPlayer.SetAfterImageMode(false);
         base.Exit();
     }
 

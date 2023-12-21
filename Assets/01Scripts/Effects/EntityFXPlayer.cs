@@ -14,7 +14,12 @@ public class EntityFXPlayer : MonoBehaviour
     protected readonly int _hashEffectColor = Shader.PropertyToID("_EffectColor");
     protected readonly int _hashEffectIntensity = Shader.PropertyToID("_EffectIntensity");
 
-
+    [Header("AfterImage")] 
+    [SerializeField] protected float _afterImageInterval = 0.03f;
+    [SerializeField] protected float _afterImageLivetime = 0.4f; 
+    [SerializeField] protected bool _afterImageMode;
+    protected float _currentTimer = 0f;
+    
     protected Player _player;
     protected Dictionary<PoolingType, ParticleEffect> _effects;
 
@@ -28,6 +33,35 @@ public class EntityFXPlayer : MonoBehaviour
     {
         _player = PlayerManager.Instance.Player;
     }
+    
+    #region after image generator
+    public void SetAfterImageMode(bool value)
+    {
+        _afterImageMode = value;
+    }
+
+    protected virtual void Update()
+    {
+        if (_afterImageMode)
+        {
+            _currentTimer -= Time.deltaTime;
+            if (_currentTimer <= 0)
+            {
+                AfterImage afterImage = PoolManager.Instance.Pop(PoolingType.AfterImage) as AfterImage;
+                if (afterImage != null)
+                {
+                    Vector3 position = _spriteRenderer.transform.position;
+                    Sprite sprite = _spriteRenderer.sprite;
+                    bool isFlip = _player.FacingDirection == -1;
+                    afterImage.StartFade(position, sprite, _afterImageLivetime, isFlip);
+                    _currentTimer = _afterImageInterval;
+                }
+            }
+        }
+    }
+    
+
+    #endregion
 
     #region ailment effect
     public void HandleAilmentChange(Ailment beforeAilment, Ailment newAilment)

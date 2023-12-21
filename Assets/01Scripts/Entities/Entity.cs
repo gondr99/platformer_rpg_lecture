@@ -23,6 +23,8 @@ public abstract class Entity : MonoBehaviour
     
     [SerializeField] protected CharacterStat _characterStat;
     public CharacterStat Stat => _characterStat;
+    
+    public EntityFXPlayer FXPlayer { get; protected set; }
     #endregion
 
     public bool CanStateChangeable { get; set; } = true; //state can be change when value is true
@@ -71,6 +73,8 @@ public abstract class Entity : MonoBehaviour
         
         _characterStat = Instantiate(_characterStat); //복제본으로 탑재.
         _characterStat.SetOwner(this); //자기를 오너로 설정
+
+        FXPlayer = transform.Find("EntityFX").GetComponent<EntityFXPlayer>();
     }
 
     protected virtual void OnDestroy()
