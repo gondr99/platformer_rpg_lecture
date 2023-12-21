@@ -40,6 +40,10 @@ public class CrystalSkill : Skill
         new Vector2(-0.3f, -0.3f),
         new Vector2(0, 0)
     };
+
+    [Header("Ailment")] 
+    public bool isChillable;
+    public float chillingPercent;
     
     private CrystalSkillController _currentCrystal;
 

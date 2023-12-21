@@ -6,4 +6,5 @@ public class ThunderAnimation : MonoBehaviour
     {
         Destroy(transform.parent.gameObject);
     }
+
 }

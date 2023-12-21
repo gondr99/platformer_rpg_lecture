@@ -64,21 +64,6 @@ public class Health : MonoBehaviour, IDamageable
     protected void Update()
     {
         ailmentStat.UpdateAilment(); //질병 업데이트
-
-        if(Keyboard.current.pKey.wasPressedThisFrame)
-        {
-            SetAilment(Ailment.Ignited, 4f, 2);
-        }
-
-        if (Keyboard.current.oKey.wasPressedThisFrame)
-        {
-            SetAilment(Ailment.Chilled, 4f, 0);
-        }
-
-        if (Keyboard.current.iKey.wasPressedThisFrame)
-        {
-            SetAilment(Ailment.Shocked, 4f, 0);
-        }
     }
 
     public void SetOwner(Entity owner)
@@ -113,9 +98,13 @@ public class Health : MonoBehaviour, IDamageable
         isHitByMelee = true;
         lastAttackDirection = (transform.position - dealer.transform.position).normalized;
 
+        CheckAdditionalDamage(damage); //추가데미지 계산
+        
         knockbackPower.x *= attackDirection.x; //y value stay to default
         return AfterHitFeedbacks(knockbackPower);
     }
+    
+    
     public void ApplyMagicDamage(int damage, Vector2 attackDirection, Vector2 knockbackPower, Player player)
     {
         int magicDamage = _owner.Stat.GetMagicDamageAfterResist(damage);
@@ -141,5 +130,17 @@ public class Health : MonoBehaviour, IDamageable
         }
 
         return false;
+    }
+
+    //쇼크시 추가데미지 계산
+    private void CheckAdditionalDamage(int damage)
+    {
+        //감점시 10% 추뎀
+        if (ailmentStat.HasAilment(Ailment.Shocked))
+        {
+            int shockDamage = Mathf.Min(1, Mathf.RoundToInt(damage * 0.1f));
+            _currentHealth = Mathf.Clamp(_currentHealth - shockDamage, 0, maxHealth);
+            Debug.Log($"{gameObject.name} : shocked damage added = {shockDamage}");
+        }
     }
 }

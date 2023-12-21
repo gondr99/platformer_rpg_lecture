@@ -13,6 +13,10 @@ public class ThunderStrikeSkill : Skill
     private List<Enemy> _targetList = new List<Enemy>();
 
     private bool _isActivating; //활성화된 상태에서 또 활성화되지 않도록
+    
+    [Header("Ailment")] 
+    public bool isShockable; //감전가능
+    public float shockPercent;
 
     public override void UseSkill()
     {

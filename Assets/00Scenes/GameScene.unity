@@ -63524,6 +63524,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1136546774}
+  - component: {fileID: 1136546775}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -63547,7 +63548,53 @@ Transform:
   - {fileID: 603641543}
   - {fileID: 58604897}
   - {fileID: 2023334746}
+  - {fileID: 1177452289}
   m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1136546775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1136546773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94e57b365e811c643b4260e726b8971f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _poolingList: {fileID: 11400000, guid: 72d038efc26a68744830c818f823e072, type: 2}
+  _poolingTrm: {fileID: 1177452289}
+--- !u!1 &1177452288
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1177452289}
+  m_Layer: 0
+  m_Name: PoolingTrm
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1177452289
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1177452288}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1136546774}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1232733131
 GameObject:
@@ -63859,6 +63906,7 @@ GameObject:
   - component: {fileID: 1610899782}
   - component: {fileID: 1610899780}
   - component: {fileID: 1610899781}
+  - component: {fileID: 1610899783}
   m_Layer: 8
   m_Name: HitFeedback
   m_TagString: Untagged
@@ -63908,6 +63956,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1003363320}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1610899783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1610899779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6dc8cbf34f5948448167ff15d8715c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _effectColr: {r: 2.9960783, g: 2.9960783, b: 2.9960783, a: 1}
+  _targetHealth: {fileID: 1003363322}
+  _offset: {x: 0.2, y: 0.8}
+  _scaleMinMax: {x: 0.8, y: 1.2}
+  _criticalScaleMinMax: {x: 3.5, y: 4}
 --- !u!66 &1659163589 stripped
 CompositeCollider2D:
   m_CorrespondingSourceObject: {fileID: 6944458739713752959, guid: 03108659c4aa55c4da92db108b569678, type: 3}
@@ -64805,6 +64870,8 @@ MonoBehaviour:
   amountOfCrystal: 3
   multiCrystalCooldown: 6
   crystalList: []
+  isChillable: 0
+  chillingPercent: 0
 --- !u!114 &2023334753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64825,8 +64892,10 @@ MonoBehaviour:
   _maxCheckEnemy: 5
   _skillPrefab: {fileID: 5529267599687134723, guid: 5f1aed82131612346b5f9320bd3339c2, type: 3}
   effectRadius: 15
-  activePercent: 20
+  activePercent: 100
   amountOfThunder: 1
+  isShockable: 1
+  shockPercent: 100
 --- !u!1 &2041423533
 GameObject:
   m_ObjectHideFlags: 0
@@ -65118,6 +65187,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1003363320}
     m_Modifications:
+    - target: {fileID: 859230508861090513, guid: e552db535c64f7949b888b3b07bcb840, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.6
+      objectReference: {fileID: 0}
     - target: {fileID: 3006299239064111789, guid: e552db535c64f7949b888b3b07bcb840, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

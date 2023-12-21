@@ -56,18 +56,28 @@ public class ThunderStrikeController : MonoBehaviour
         _visualTrm.rotation = Quaternion.identity;
         transform.localScale = Vector3.one * 1.2f;
 
-        Player player = PlayerManager.Instance.Player;
+        _animator.SetTrigger(_hashHitTrigger);
+        StartCoroutine(DelayDamage(0.5f, direction));
+    }
 
+    private IEnumerator DelayDamage(float delay, Vector2 direction)
+    {
+        yield return new WaitForSeconds(delay);
+        Player player = PlayerManager.Instance.Player;
         int magicDamage = player.PStat.GetMagicDamage(StatType.LightingDamage);
         
         _target.HealthCompo.ApplyMagicDamage(
             magicDamage,
-            direction.normalized,
+            direction,
             new Vector2(1.5f, 3f),
             player);
 
-        _animator.SetTrigger(_hashHitTrigger);
+        if (_skill.isShockable && Random.Range(0, 100f) < _skill.shockPercent)
+        {
+            float duration = player.PStat.ailmentDuration.GetValue() * 0.001f; //ms단위
+            _target.HealthCompo.SetAilment(Ailment.Shocked, duration, 0);
 
+        }
     }
 
     

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class CrystalSkillController : MonoBehaviour
 {
@@ -142,6 +143,12 @@ public class CrystalSkillController : MonoBehaviour
             //배율에 따라 증가된 값으로 데미지
             int calculatedDamage = Mathf.RoundToInt(damage * _skill.damageMultiplier);
             enemy.HealthCompo.ApplyMagicDamage(calculatedDamage, dir.normalized, _skill.knockbackPower, player);
+
+            if (_skill.isChillable && Random.Range(0, 100f) < _skill.chillingPercent)
+            {
+                float duration = player.PStat.ailmentDuration.GetValue() * 0.001f; //ms단위
+                enemy.HealthCompo.SetAilment(Ailment.Chilled, duration, 0); //빙결은 데미지는 없음.
+            }
         }
     }
     
