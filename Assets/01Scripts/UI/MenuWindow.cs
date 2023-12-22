@@ -33,7 +33,7 @@ public class MenuWindow : MonoBehaviour
 
     private void CloseAllMenu()
     {
-        foreach(GameObject panel in  _panelList)
+        foreach(GameObject panel in _panelList)
         {
             panel.SetActive(false);
         }

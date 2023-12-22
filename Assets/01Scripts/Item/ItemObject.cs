@@ -31,6 +31,7 @@ public class ItemObject : MonoBehaviour, IPickable
     public void PickUp()
     {
         //make insert to inventory code, after time
+        Inventory.Instance.AddItem(_itemData);
         Destroy(gameObject);
     }
 }
