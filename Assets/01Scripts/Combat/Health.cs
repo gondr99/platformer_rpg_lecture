@@ -7,7 +7,7 @@ public class Health : MonoBehaviour, IDamageable
 {
     public int maxHealth;
     [SerializeField] private int _currentHealth;
-
+    [SerializeField] private Vector3 _popupTextOffset;
 
     public Action OnHit;
     public Action<Vector2> OnDead;
@@ -44,7 +44,8 @@ public class Health : MonoBehaviour, IDamageable
     //도트데미지 관리
     private void HandleDotDamageEvent(Ailment ailmentType, int damage)
     {
-        Debug.Log($"{ailmentType.ToString()} dot damaged : {damage}");
+        Vector3 position = _owner.transform.position + _popupTextOffset;
+        PopupTextManager.Instance.PopupDamageText(position, damage.ToString(), DamageCategory.Debuff);
         _currentHealth = Mathf.Clamp(_currentHealth - damage, 0, maxHealth);
         AfterHitFeedbacks(Vector2.zero, false);
     }
@@ -76,15 +77,16 @@ public class Health : MonoBehaviour, IDamageable
     {
         if (_owner.isDead) return true; // if dead then return
 
+        Vector3 position = _owner.transform.position + _popupTextOffset;
+
         if (_owner.Stat.CanEvasion())
         {
-            Debug.Log($"{_owner.gameObject.name} is evasion attack!");
+            PopupTextManager.Instance.PopupDamageText(position, "Evasion", DamageCategory.Debuff);
             return false;
         }
         
         if (dealer.Stat.IsCritical(ref damage))
         {
-            Debug.Log($"Critical! : {damage}"); //데미지 증뎀되었음.
             isLastHitCritical = true;
         }
         else
@@ -94,7 +96,9 @@ public class Health : MonoBehaviour, IDamageable
         
         damage = _owner.Stat.ArmoredDamage(damage); 
         _currentHealth = Mathf.Clamp(_currentHealth - damage, 0, maxHealth);
-        
+        PopupTextManager.Instance.PopupDamageText(position, damage.ToString(), isLastHitCritical ? DamageCategory.Critical : DamageCategory.Normal);
+
+
         isHitByMelee = true;
         lastAttackDirection = (transform.position - dealer.transform.position).normalized;
 
@@ -107,8 +111,12 @@ public class Health : MonoBehaviour, IDamageable
     
     public void ApplyMagicDamage(int damage, Vector2 attackDirection, Vector2 knockbackPower, Player player)
     {
+        Vector3 position = _owner.transform.position + _popupTextOffset;
+
         int magicDamage = _owner.Stat.GetMagicDamageAfterResist(damage);
         _currentHealth = Mathf.Clamp(_currentHealth - magicDamage, 0, maxHealth);
+
+        PopupTextManager.Instance.PopupDamageText(position, magicDamage.ToString(), DamageCategory.Normal);
 
         isHitByMelee = false;
         knockbackPower.x *= attackDirection.x; //y값은 고정으로.
@@ -138,9 +146,12 @@ public class Health : MonoBehaviour, IDamageable
         //감점시 10% 추뎀
         if (ailmentStat.HasAilment(Ailment.Shocked))
         {
+            Vector3 position = _owner.transform.position + _popupTextOffset;
+
             int shockDamage = Mathf.Min(1, Mathf.RoundToInt(damage * 0.1f));
             _currentHealth = Mathf.Clamp(_currentHealth - shockDamage, 0, maxHealth);
-            Debug.Log($"{gameObject.name} : shocked damage added = {shockDamage}");
+            PopupTextManager.Instance.PopupDamageText(position, shockDamage.ToString(), DamageCategory.Debuff);
+            //Debug.Log($"{gameObject.name} : shocked damage added = {shockDamage}");
         }
     }
 }
