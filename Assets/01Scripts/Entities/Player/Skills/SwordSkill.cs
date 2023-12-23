@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -52,14 +53,71 @@ public class SwordSkill : Skill
     [SerializeField] private GameObject _dotPrefab;
     [SerializeField] private Transform _dotsParent;
     private GameObject[] _dots;
-    
+
     private Vector2 _finalDirection;
     private bool _holdKey = false;
-
+    
     [HideInInspector] public SwordSkillController generatedSword;
-
     public bool canFreeze; //타격시 적을 순간적으로 프리즈 시키는가?
     
+    
+    #region SkillTree system handler
+    [Header("Skill Trees")]
+    [SerializeField] private SkillTreeSlotUI _enableSkillSlot;
+    [SerializeField] private SkillTreeSlotUI _pierceShotSkillSlot;
+    [SerializeField] private SkillTreeSlotUI _bounceShotSkillSlot;
+    [SerializeField] private SkillTreeSlotUI _spinShotSkillSlot;
+    private void Awake()
+    {
+        _enableSkillSlot.UpgradeEvent += HandleEnableSkillEvent;
+        _pierceShotSkillSlot.UpgradeEvent += HandlePirceSkillEvent;
+        _bounceShotSkillSlot.UpgradeEvent += HandleBounceSkillEvent;
+        _spinShotSkillSlot.UpgradeEvent += HandleSpinShotSkillEvent;
+    }
+
+    private void OnDestroy()
+    {
+        _enableSkillSlot.UpgradeEvent -= HandleEnableSkillEvent;
+        _pierceShotSkillSlot.UpgradeEvent -= HandlePirceSkillEvent;
+        _bounceShotSkillSlot.UpgradeEvent -= HandleBounceSkillEvent;
+        _spinShotSkillSlot.UpgradeEvent -= HandleSpinShotSkillEvent;
+    }
+    private void HandleEnableSkillEvent(int currentCount)
+    {
+        skillEnabled = true;
+        damageMultiplier = 1 + currentCount * 0.25f;
+    }
+
+    private void HandlePirceSkillEvent(int currentCount)
+    {
+        if (currentCount == 1)
+        {
+            swordSkillType = SwordSkillType.Pierce;
+        }
+        pierceAmount = 2 + currentCount * 2;
+        pierceDamageMultiplier = 2 + currentCount * (0.25f); //이런수치들은 기획되어야 한다.
+    }
+
+    private void HandleBounceSkillEvent(int currentCount)
+    {
+        if (currentCount == 1)
+        {
+            swordSkillType = SwordSkillType.Bounce;
+        }
+        bounceAmount = 2 + currentCount;
+    }
+    
+    private void HandleSpinShotSkillEvent(int currentCount)
+    {
+        if (currentCount == 1)
+        {
+            swordSkillType = SwordSkillType.Spin;
+        }
+        hitCooldown = 0.5f - currentCount * 0.05f;
+    }
+
+    #endregion
+
     protected override void Start()
     {
         base.Start();

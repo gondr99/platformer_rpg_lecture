@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using UnityEditor;
 using UnityEngine;
 
@@ -18,7 +19,9 @@ public class ItemDataSO : ScriptableObject
 
     [Range(0, 100)]
     public float dropChance;
-
+    
+    protected StringBuilder _stringBuilder = new StringBuilder();
+    
     private void OnValidate()
     {
 #if UNITY_EDITOR

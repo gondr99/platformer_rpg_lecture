@@ -116,6 +116,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""OpenMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""759a5fdb-84c8-4c32-a1ca-f0a2b27ed57f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -272,6 +281,17 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""CrystalSkill"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e450a9fd-6a93-43e7-abf9-176dd5325600"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -307,6 +327,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_Player_ThrowSword = m_Player.FindAction("ThrowSword", throwIfNotFound: true);
         m_Player_UltiSkill = m_Player.FindAction("UltiSkill", throwIfNotFound: true);
         m_Player_CrystalSkill = m_Player.FindAction("CrystalSkill", throwIfNotFound: true);
+        m_Player_OpenMenu = m_Player.FindAction("OpenMenu", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -378,6 +399,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_ThrowSword;
     private readonly InputAction m_Player_UltiSkill;
     private readonly InputAction m_Player_CrystalSkill;
+    private readonly InputAction m_Player_OpenMenu;
     public struct PlayerActions
     {
         private @Controls m_Wrapper;
@@ -392,6 +414,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @ThrowSword => m_Wrapper.m_Player_ThrowSword;
         public InputAction @UltiSkill => m_Wrapper.m_Player_UltiSkill;
         public InputAction @CrystalSkill => m_Wrapper.m_Player_CrystalSkill;
+        public InputAction @OpenMenu => m_Wrapper.m_Player_OpenMenu;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -431,6 +454,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @CrystalSkill.started += instance.OnCrystalSkill;
             @CrystalSkill.performed += instance.OnCrystalSkill;
             @CrystalSkill.canceled += instance.OnCrystalSkill;
+            @OpenMenu.started += instance.OnOpenMenu;
+            @OpenMenu.performed += instance.OnOpenMenu;
+            @OpenMenu.canceled += instance.OnOpenMenu;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -465,6 +491,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @CrystalSkill.started -= instance.OnCrystalSkill;
             @CrystalSkill.performed -= instance.OnCrystalSkill;
             @CrystalSkill.canceled -= instance.OnCrystalSkill;
+            @OpenMenu.started -= instance.OnOpenMenu;
+            @OpenMenu.performed -= instance.OnOpenMenu;
+            @OpenMenu.canceled -= instance.OnOpenMenu;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -503,5 +532,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         void OnThrowSword(InputAction.CallbackContext context);
         void OnUltiSkill(InputAction.CallbackContext context);
         void OnCrystalSkill(InputAction.CallbackContext context);
+        void OnOpenMenu(InputAction.CallbackContext context);
     }
 }

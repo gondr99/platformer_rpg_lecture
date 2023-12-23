@@ -14,6 +14,8 @@ public class InputReader : ScriptableObject, IPlayerActions
     public event Action<bool> ThrowSwordEvent;
     public event Action UltiSkillEvent;
     public event Action CrystalSkillEvent;
+
+    public event Action OpenMenuEvent;
     #endregion
 
     #region input value section
@@ -98,5 +100,11 @@ public class InputReader : ScriptableObject, IPlayerActions
         {
             CrystalSkillEvent?.Invoke();
         }
+    }
+
+    public void OnOpenMenu(InputAction.CallbackContext context)
+    {
+        if(context.performed)
+            OpenMenuEvent?.Invoke();
     }
 }

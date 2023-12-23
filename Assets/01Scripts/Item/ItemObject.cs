@@ -30,6 +30,11 @@ public class ItemObject : MonoBehaviour, IPickable
 
     public void PickUp()
     {
+        if (!Inventory.Instance.CanAddItem(_itemData))
+        {
+            _rigidbody.velocity = new Vector2(0, 7); //잠깐 위로 떠오르고
+            return; //안줍는다.
+        }
         //make insert to inventory code, after time
         Inventory.Instance.AddItem(_itemData);
         Destroy(gameObject);
