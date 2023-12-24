@@ -115,7 +115,7 @@ public abstract class Enemy : Entity
         }
     }
 
-    public virtual void FreezeTimeOfr(float freezeTime)
+    public virtual void FreezeTimeFor(float freezeTime)
     {
         FreezeTime(true); //freeze enemy
         StartDelayCallback(freezeTime, () =>

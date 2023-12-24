@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class CloneSkill : Skill
@@ -20,7 +21,56 @@ public class CloneSkill : Skill
     public int maxDuplicateCounter;
     public float reducePercentByCount;
 
+    [Header("Skill tree")]
+    [SerializeField] private SkillTreeSlotUI _createCloneOnStartSlot;
+    [SerializeField] private SkillTreeSlotUI _createCloneOnOverSlot;
+    [SerializeField] private SkillTreeSlotUI _createCloneOnCounterSlot;
+    [SerializeField] private SkillTreeSlotUI _duplicateCloneSlot;
+
+    #region skill tree 
+    private void Awake()
+    {
+        _createCloneOnStartSlot.UpgradeEvent += HandleCreateCloneOnStartEvent;
+        _createCloneOnOverSlot.UpgradeEvent += HandleCreateCloneOnOverEvent;
+        _createCloneOnCounterSlot.UpgradeEvent += HandleCreateCloneOnCounterEvent;
+        _duplicateCloneSlot.UpgradeEvent += HandleDuplicateCloneEvent;
+    }
+
+    private void OnDestroy()
+    {
+        _createCloneOnStartSlot.UpgradeEvent -= HandleCreateCloneOnStartEvent;
+        _createCloneOnOverSlot.UpgradeEvent -= HandleCreateCloneOnOverEvent;
+        _createCloneOnCounterSlot.UpgradeEvent -= HandleCreateCloneOnCounterEvent;
+        _duplicateCloneSlot.UpgradeEvent -= HandleDuplicateCloneEvent;
+    }
+
+    private void HandleCreateCloneOnStartEvent(int currentCount)
+    {
+        skillEnabled = true;
+        createCloneOnDashStart = true;
+    }
+
+    private void HandleCreateCloneOnOverEvent(int currentCount)
+    {
+        createCloneOnDashOver = true;
+    }
+
+    private void HandleCreateCloneOnCounterEvent(int currentCount)
+    {
+        createCloneOnCounterAttack = true;
+    }
+
+    private void HandleDuplicateCloneEvent(int currentCount)
+    {
+        canDuplicateClone = true;
+        maxDuplicateCounter = currentCount;
+        reducePercentByCount = 25f; //25퍼씩 경감
+        duplicatePercent = 20 + currentCount * 15f;
+    }
+
+    #endregion
     
+
 
     public void CreateClone(Transform originTrm, Vector3 offset, int duplicatedCount = 1)
     {

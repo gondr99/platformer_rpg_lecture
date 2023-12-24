@@ -20,8 +20,7 @@ public class SwordSkill : Skill
     [SerializeField] private Vector2 _launchForce;
     [SerializeField] private float _swordGravity;
     [SerializeField] private float _returnSpeed = 16f;
-
-    public float freezeTime = 0.7f;
+    
     public float damageMultiplier = 1;
     public Vector2 knockbackPower;
     public float returnImpactPower = 8;
@@ -57,8 +56,13 @@ public class SwordSkill : Skill
     private Vector2 _finalDirection;
     private bool _holdKey = false;
     
-    [HideInInspector] public SwordSkillController generatedSword;
+    [Header("Freezing ailment")]
     public bool canFreeze; //타격시 적을 순간적으로 프리즈 시키는가?
+    public float freezeTime = 0.7f;
+    public float freezeAilmentPercent;
+    
+    [HideInInspector] public SwordSkillController generatedSword;
+    
     
     
     #region SkillTree system handler
@@ -67,12 +71,18 @@ public class SwordSkill : Skill
     [SerializeField] private SkillTreeSlotUI _pierceShotSkillSlot;
     [SerializeField] private SkillTreeSlotUI _bounceShotSkillSlot;
     [SerializeField] private SkillTreeSlotUI _spinShotSkillSlot;
+    
+    [SerializeField] private SkillTreeSlotUI _freezeSkillSlot;
+    [SerializeField] private SkillTreeSlotUI _chillAilmentSkillSlot;
     private void Awake()
     {
         _enableSkillSlot.UpgradeEvent += HandleEnableSkillEvent;
         _pierceShotSkillSlot.UpgradeEvent += HandlePirceSkillEvent;
         _bounceShotSkillSlot.UpgradeEvent += HandleBounceSkillEvent;
         _spinShotSkillSlot.UpgradeEvent += HandleSpinShotSkillEvent;
+
+        _freezeSkillSlot.UpgradeEvent += HandleFreezeSkillEvent;
+        _chillAilmentSkillSlot.UpgradeEvent += HandleChillAilmentEvent;
     }
 
     private void OnDestroy()
@@ -81,7 +91,21 @@ public class SwordSkill : Skill
         _pierceShotSkillSlot.UpgradeEvent -= HandlePirceSkillEvent;
         _bounceShotSkillSlot.UpgradeEvent -= HandleBounceSkillEvent;
         _spinShotSkillSlot.UpgradeEvent -= HandleSpinShotSkillEvent;
+        
+        _freezeSkillSlot.UpgradeEvent -= HandleFreezeSkillEvent;
+        _chillAilmentSkillSlot.UpgradeEvent -= HandleChillAilmentEvent;
     }
+    
+    private void HandleFreezeSkillEvent(int currentCount)
+    {
+        canFreeze = true;
+    }
+    
+    private void HandleChillAilmentEvent(int currentCount)
+    {
+        freezeAilmentPercent = currentCount * 15f;
+    }
+
     private void HandleEnableSkillEvent(int currentCount)
     {
         skillEnabled = true;

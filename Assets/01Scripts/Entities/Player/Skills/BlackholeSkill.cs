@@ -21,8 +21,47 @@ public class BlackholeSkill : Skill
     
     public event Action SkillEffectEnd;
     
-    
     private BlackholeSkillController _blackholeSkill;
+
+    [Header("Skill Tree")] 
+    [SerializeField] private SkillTreeSlotUI _skillEnable;
+    [SerializeField] private SkillTreeSlotUI _increaseClone;
+    [SerializeField] private SkillTreeSlotUI _decreaseCooldown;
+
+    #region skill tree
+
+    private void Awake()
+    {
+        _skillEnable.UpgradeEvent += HandleSkillEnableEvent;
+        _increaseClone.UpgradeEvent += HandleIncreaseCloneEvent;
+        _decreaseCooldown.UpgradeEvent += HandleDecreaseCloneEvent;
+    }
+
+    private void OnDestroy()
+    {
+        _skillEnable.UpgradeEvent -= HandleSkillEnableEvent;
+        _increaseClone.UpgradeEvent -= HandleIncreaseCloneEvent;
+        _decreaseCooldown.UpgradeEvent -= HandleDecreaseCloneEvent;
+    }
+
+    private void HandleSkillEnableEvent(int currentCount)
+    {
+        skillEnabled = true;
+        maxSize = 5 + currentCount * 4;
+    }
+
+    private void HandleIncreaseCloneEvent(int currentCount)
+    {
+        amountOfAttack = 4 + currentCount;
+    }
+
+    private void HandleDecreaseCloneEvent(int currentCount)
+    {
+        _cooldown = 150 - currentCount * 10f;
+    }
+
+    #endregion
+    
     
     protected override void Start()
     {

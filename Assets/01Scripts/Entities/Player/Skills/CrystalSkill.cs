@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -44,8 +45,74 @@ public class CrystalSkill : Skill
     [Header("Ailment")] 
     public bool isChillable;
     public float chillingPercent;
-    
+
     private CrystalSkillController _currentCrystal;
+
+    [Header("skill tree")] 
+    [SerializeField] private SkillTreeSlotUI _skillEnable; //5회
+    [SerializeField] private SkillTreeSlotUI _addExplosion;  // 3회
+    [SerializeField] private SkillTreeSlotUI _addAilment; //5회
+    [SerializeField] private SkillTreeSlotUI _addChase; //5회
+    [SerializeField] private SkillTreeSlotUI _addMultiple; //5회
+
+    #region skill tree
+    //2개의 데미지 증가 스킬슬롯이 있어서 합쳐서 반영한다.
+    private float _skillDamageMultiplier = 0;
+    private float _chaseDamageMultiplier = 0;
+    private void Awake()
+    {
+        _skillEnable.UpgradeEvent += HandleSkillEnableEvent;
+        _addExplosion.UpgradeEvent += HandleExlosionEvent;
+        _addAilment.UpgradeEvent += HandleAilmentEvent;
+        _addChase.UpgradeEvent += HandleChaseEvent;
+        _addMultiple.UpgradeEvent += HandleMultipleEvent;
+    }
+
+    private void OnDestroy()
+    {
+        _skillEnable.UpgradeEvent -= HandleSkillEnableEvent;
+        _addExplosion.UpgradeEvent -= HandleExlosionEvent;
+        _addAilment.UpgradeEvent -= HandleAilmentEvent;
+        _addChase.UpgradeEvent -= HandleChaseEvent;
+        _addMultiple.UpgradeEvent -= HandleMultipleEvent;
+    }
+
+    private void HandleSkillEnableEvent(int currentCount)
+    {
+        skillEnabled = true;
+        _skillDamageMultiplier = 1 + (currentCount - 1) * 0.2f;
+        damageMultiplier = _skillDamageMultiplier + _chaseDamageMultiplier;
+    }
+
+    private void HandleExlosionEvent(int currentCount)
+    {
+        explosionRadius = 1.5f + currentCount * 0.5f;
+    }
+
+    private void HandleAilmentEvent(int currentCount)
+    {
+        isChillable = true;
+        chillingPercent = 20 + currentCount * 10f; //최대 70% 확률로 동결
+    }
+
+    private void HandleChaseEvent(int currentCount)
+    {
+        crystalType = CrystalType.Moving;
+        _chaseDamageMultiplier = 0.5f + currentCount * 0.2f;
+        damageMultiplier = _skillDamageMultiplier + _chaseDamageMultiplier; 
+    }
+
+    private void HandleMultipleEvent(int currentCount)
+    {
+        crystalType = CrystalType.Multiple;
+        amountOfCrystal = 2 + currentCount;
+        multiCrystalCooldown = 5f;
+    }
+
+    #endregion
+    
+    
+    
 
     public override bool AttemptUseSkill()
     {

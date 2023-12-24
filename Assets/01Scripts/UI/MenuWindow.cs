@@ -42,8 +42,11 @@ public class MenuWindow : MonoSingleton<MenuWindow>
         
         _canvasGroup = GetComponent<CanvasGroup>();
         _inputReader.OpenMenuEvent += HandleOpenMenuEvent;
+    }
+
+    private void Start()
+    {
         CloseMenuWindow(); //시작하면 닫아.
-        
         dragItem.EndDrag();//드래그아이템은 투명처리
     }
 

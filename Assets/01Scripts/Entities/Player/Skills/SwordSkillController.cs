@@ -257,7 +257,19 @@ public class SwordSkillController : MonoBehaviour
         SkillManager.Instance.UseSkillFeedback(PlayerSkill.Sword);
 
         bool isSpinSkill = _swordSkill.swordSkillType == SwordSkillType.Spin;
-        Vector2 knockbackPower = isSpinSkill ? _swordSkill.spinKnockbackPower : _swordSkill.knockbackPower;  
+        Vector2 knockbackPower = isSpinSkill ? _swordSkill.spinKnockbackPower : _swordSkill.knockbackPower;
+
+        if (_swordSkill.canFreeze)
+        {
+            enemy.FreezeTimeFor(_swordSkill.freezeTime);
+
+            if (Random.Range(0, 100f) < _swordSkill.freezeAilmentPercent)
+            {
+                float duration = _player.PStat.ailmentDuration.GetValue() / 1000f;
+                enemy.HealthCompo.SetAilment(Ailment.Chilled,  duration, 0);
+            }
+        }
+        
         return enemy.HealthCompo.ApplyDamage(damage, direction, knockbackPower, _player);
     }
 

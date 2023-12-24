@@ -1,13 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class ThunderStrikeSkill : Skill
 {
     [Header("Skill info")]
     [SerializeField] private ThunderStrikeController _skillPrefab;
     public float effectRadius = 15f;
-    public int activePercent = 30; //30퍼 확률로 발동.
+    public float activePercent = 30; //30퍼 확률로 발동.
     public int amountOfThunder = 1; //떨어지는 번개 수 
 
     private List<Enemy> _targetList = new List<Enemy>();
@@ -18,6 +20,46 @@ public class ThunderStrikeSkill : Skill
     public bool isShockable; //감전가능
     public float shockPercent;
 
+    [Header("Skill tree")] 
+    [SerializeField] private SkillTreeSlotUI _skillEnable;
+    [SerializeField] private SkillTreeSlotUI _increaseAmount;
+    [SerializeField] private SkillTreeSlotUI _addAilment;
+
+    #region skilltree
+
+    private void Awake()
+    {
+        _skillEnable.UpgradeEvent += HandleSkillEnableEvent;
+        _increaseAmount.UpgradeEvent += HandleIncreaseAmountEvent;
+        _addAilment.UpgradeEvent += HandleAddAilmentEvent;
+    }
+
+    private void OnDestroy()
+    {
+        _skillEnable.UpgradeEvent -= HandleSkillEnableEvent;
+        _increaseAmount.UpgradeEvent -= HandleIncreaseAmountEvent;
+        _addAilment.UpgradeEvent -= HandleAddAilmentEvent;
+    }
+
+    private void HandleSkillEnableEvent(int currentCount)
+    {
+        skillEnabled = true;
+        activePercent = 20 + currentCount * 10f;
+    }
+
+    private void HandleIncreaseAmountEvent(int currentCount)
+    {
+        amountOfThunder = 1 + currentCount;
+    }
+
+    private void HandleAddAilmentEvent(int currentCount)
+    {
+        isShockable = true;
+        shockPercent = 30f + currentCount * 10f;
+    }
+
+    #endregion
+    
     public override void UseSkill()
     {
         if (!skillEnabled) return; //비활성화시 작동안함.
