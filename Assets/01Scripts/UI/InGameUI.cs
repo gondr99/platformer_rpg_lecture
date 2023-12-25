@@ -1,12 +1,12 @@
+using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class InGameUI : MonoBehaviour
 {
     [SerializeField] private Image _healthSlider;
-    [SerializeField] private Image _expSlider; 
-    
+    [SerializeField] private Image _expSlider;
+    [SerializeField] private TextMeshProUGUI _goldText;
     private Health _playerHealth;
     
     private void Start()
@@ -16,6 +16,14 @@ public class InGameUI : MonoBehaviour
 
         PlayerManager.Instance.ExpChanged += HandleExpEvent;
         HandleExpEvent(); //최초 한번 실행
+
+        PlayerManager.Instance.OnGoldChanged += HandleGoldChangeEvent;
+        HandleGoldChangeEvent(PlayerManager.Instance.Gold);
+    }
+
+    private void HandleGoldChangeEvent(int value)
+    {
+        _goldText.text = value.ToString();
     }
 
     private void HandleHitEvent()
