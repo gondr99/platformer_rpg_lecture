@@ -17,10 +17,12 @@ public class MenuWindow : MonoSingleton<MenuWindow>
     private bool _isMenuOpen = false;
     private bool _isAnimating = false;
     private CanvasGroup _canvasGroup;
-    
+
+    public OptionUI OptionUI { get; private set; }
     
     private void Awake()
     {
+        OptionUI = transform.Find("Content/OptionPanel").GetComponent<OptionUI>();
         _menuBtnList = transform.Find("Header").GetComponentsInChildren<Button>().ToList();
         _contentTrm = transform.Find("Content");
         _panelList = new List<GameObject>();

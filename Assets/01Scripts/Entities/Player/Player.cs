@@ -144,7 +144,7 @@ public class Player : Entity
 
     protected override void HandleDead(Vector2 direction)
     {
-        //currently do nothing here!
+        StateMachine.ChangeState(PlayerStateEnum.Dead);
     }
 
 

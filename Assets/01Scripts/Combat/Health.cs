@@ -154,4 +154,10 @@ public class Health : MonoBehaviour, IDamageable
             //Debug.Log($"{gameObject.name} : shocked damage added = {shockDamage}");
         }
     }
+
+    public float GetNormalizedHealth()
+    {
+        if (maxHealth <= 0) return 0;
+        return Mathf.Clamp((float)_currentHealth / maxHealth, 0, 1f);
+    }
 }

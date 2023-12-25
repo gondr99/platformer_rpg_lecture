@@ -25,7 +25,7 @@ MonoBehaviour:
     _baseValue: 5
     modifiers: 
   maxHealth:
-    _baseValue: 0
+    _baseValue: 200
     modifiers: 
   armor:
     _baseValue: 0

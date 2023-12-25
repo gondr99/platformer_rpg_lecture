@@ -11,13 +11,28 @@ public class PlayerManager : MonoSingleton<PlayerManager>
     
     public event Action<int> SkillPointChanged;
     public event Action<int> StatPointChanged;
+    public event Action<int> OnGoldChanged;
+    
     public event Action ExpChanged;
     private int _statPoint;
     private int _skillPoint;
     
     public int level = 1;
     public int nextExpPoint = 1000;
-    [SerializeField]private int _currentExp = 0;
+    [SerializeField] private int _currentExp = 0;
+    [SerializeField] private int _gold = 0;
+
+    public int Gold
+    {
+        get => _gold;
+        set
+        {
+            _gold = value;
+            OnGoldChanged?.Invoke(_gold);
+        }
+    }
+    
+    
     
     public int SkillPoint
     {

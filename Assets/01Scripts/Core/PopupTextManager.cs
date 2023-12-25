@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public enum DamageCategory
 {
@@ -17,6 +19,11 @@ public class PopupTextManager : MonoSingleton<PopupTextManager>
     [ColorUsage(true, true)]
     [SerializeField] private Color[] _textColors;
     [SerializeField] private float[] _textSizes;
+
+    private void Start()
+    {
+        MenuWindow.Instance.OptionUI.ToggleDamageTextEvent += value => popupDamageText = value;
+    }
 
     public void PopupDamageText(Vector3 position, string value, DamageCategory category)
     {

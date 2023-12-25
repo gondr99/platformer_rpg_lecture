@@ -64,7 +64,7 @@ public class EnemySkelecton : Enemy
 
     public override void Attack()
     {
-
+        DamageCasterCompo.CastDamage(combo:0);
     }
 
     public override void Stun(float time)
