@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,6 +20,8 @@ public class MenuWindow : MonoSingleton<MenuWindow>
     private CanvasGroup _canvasGroup;
 
     public OptionUI OptionUI { get; private set; }
+
+    [SerializeField] private TextMeshProUGUI _skillPointText;
     
     private void Awake()
     {
@@ -50,7 +53,13 @@ public class MenuWindow : MonoSingleton<MenuWindow>
     {
         CloseMenuWindow(); //시작하면 닫아.
         dragItem.EndDrag();//드래그아이템은 투명처리
+        PlayerManager.Instance.SkillPointChanged += (value) =>
+        {
+            _skillPointText.text = value.ToString();
+        };
+        _skillPointText.text = PlayerManager.Instance.SkillPoint.ToString();
     }
+
 
     private void OnDestroy()
     {
@@ -60,6 +69,8 @@ public class MenuWindow : MonoSingleton<MenuWindow>
     private void HandleOpenMenuEvent()
     {
         if (_isAnimating) return; //애니메이션중일때는 리턴.
+
+        _inputReader.SetPlayerInputEnable(_isMenuOpen);
 
         if (_isMenuOpen)
         {

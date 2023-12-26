@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
 
+
 [Serializable]
 public struct KeySprite
 {
@@ -13,7 +14,7 @@ public struct KeySprite
 }
 
 [CreateAssetMenu(menuName = "SO/Key/KeySpriteSO")]
-public class HoyKeyIconSO : ScriptableObject
+public class HotKeyIconSO : ScriptableObject
 {
     public List<KeySprite> keySprites = new List<KeySprite>();
 

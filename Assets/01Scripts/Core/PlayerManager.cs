@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerManager : MonoSingleton<PlayerManager>
+public class PlayerManager : MonoSingleton<PlayerManager>, ISaveable
 {
     [SerializeField] private Player _player;
 
@@ -94,5 +94,22 @@ public class PlayerManager : MonoSingleton<PlayerManager>
             AddExp(500);
         }
     }
-    
+
+    public void LoadData(GameData data)
+    {
+        level = data.level;
+        _currentExp = data.exp;
+        nextExpPoint = data.requiredExp;
+        SkillPoint = data.skillPoint;
+        Gold = data.gold;
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.level = level;
+        data.exp = _currentExp;
+        data.requiredExp = nextExpPoint;
+        data.skillPoint = SkillPoint;
+        data.gold = Gold;
+    }
 }

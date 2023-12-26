@@ -6,11 +6,11 @@ public class MaterialStash : Stash
     {
     }
 
-    public override void AddItem(ItemDataSO item, int addIndex)
+    public override void AddItem(ItemDataSO item, int count, int addIndex)
     {
         if (stashDictionary.TryGetValue(item, out InventoryItem value))
         {
-            value.AddStack();
+            value.AddStack(count);
         }
         else
         {

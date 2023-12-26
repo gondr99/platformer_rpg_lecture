@@ -41,6 +41,11 @@ public class EquipmentSlots
         }
     }
     
+    public bool HasEquipItem(ItemDataEquipmentSO item)
+    {
+        return equipmentDictionary.ContainsKey(item);
+    }
+
     public ItemDataEquipmentSO GetEquipmentByType(EquipmentType type)
     {
         ItemDataEquipmentSO equipItem = null;

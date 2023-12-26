@@ -1,11 +1,15 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class Inventory : MonoSingleton<Inventory>
+public class Inventory : MonoSingleton<Inventory>, ISaveable
 {
     public MaterialStash materialStash;
     public EquipmentStash equipmentStash;//장비 창고
     public EquipmentSlots equipmentSlots; //장착칸
+
+    [Header("ItemDatabase")]
+    [SerializeField] private ItemDatabaseSO _itemDB;
 
     [Header("Inventory UI")]
     [SerializeField] private Transform _materialStashSlotParent;
@@ -53,19 +57,23 @@ public class Inventory : MonoSingleton<Inventory>
     }
     
     //칸을 지정해서 넣을 꺼면 addIndex에 값 보내기
-    public bool AddItem(ItemDataSO item, int addIndex = -1)
+    public bool AddItem(ItemDataSO item, int count = 1, int addIndex = -1)
     {
         bool itemAdded = false;
         if (item.itemType == ItemType.Material && materialStash.CanAddItem(item))
         {
-            materialStash.AddItem(item, addIndex);
+            materialStash.AddItem(item, count, addIndex);
             itemAdded = true;
         }
 
-        if (item.itemType == ItemType.Equipment && equipmentStash.CanAddItem(item))
+        if(item.itemType == ItemType.Equipment )
         {
-            equipmentStash.AddItem(item, addIndex);
-            itemAdded = true;
+            ItemDataEquipmentSO equipItem = item as ItemDataEquipmentSO;
+            if(equipmentStash.CanAddItem(item) && !equipmentSlots.HasEquipItem(equipItem))
+            {
+                equipmentStash.AddItem(item, count, addIndex);
+                itemAdded = true;
+            }
         }
         
         if (itemAdded)
@@ -79,7 +87,7 @@ public class Inventory : MonoSingleton<Inventory>
     public bool CanAddItem(ItemDataSO item)
     {
         bool canMaterialAdd = (item.itemType == ItemType.Material && materialStash.CanAddItem(item));
-        bool canEquipmentAdd = (item.itemType == ItemType.Equipment && equipmentStash.CanAddItem(item));
+        bool canEquipmentAdd = (item.itemType == ItemType.Equipment && equipmentStash.CanAddItem(item) && !equipmentSlots.HasEquipItem(item as ItemDataEquipmentSO));
         
         return canMaterialAdd || canEquipmentAdd;
     }
@@ -102,5 +110,48 @@ public class Inventory : MonoSingleton<Inventory>
                 break;
         }
         UpdateSlotUI();
+    }
+
+    public void LoadData(GameData data)
+    {
+        List<ItemDataSO> ItemDB = _itemDB.itemList;
+
+        foreach (var pair in data.inventory)
+        {
+            ItemDataSO item = ItemDB.Find(x => x.itemID == pair.Key);
+            if (item != null)
+            {
+                AddItem(item, pair.Value.stackSize, pair.Value.slotIndex);
+            }
+        }
+
+        //장착 장비들 복원
+        foreach (string itemID in data.equipmentsIDList)
+        {
+            ItemDataSO item = ItemDB.Find(x => x.itemID == itemID);
+            if (item != null)
+            {
+                EquipItem(item);
+            }
+        }
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.inventory.Clear();
+        foreach (var pair in equipmentStash.stashDictionary)
+        {
+            data.inventory.Add(pair.Key.itemID, pair.Value);
+        }
+
+        foreach (var pair in materialStash.stashDictionary)
+        {
+            data.inventory.Add(pair.Key.itemID, pair.Value);
+        }
+
+        foreach(var pair in equipmentSlots.equipmentDictionary)
+        {
+            data.equipmentsIDList.Add(pair.Key.itemID);
+        }
     }
 }

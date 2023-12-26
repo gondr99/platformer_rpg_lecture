@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 public class HotKeyController : MonoBehaviour
 {
     [SerializeField] private KeyParticle _keyParticlePrefab;
-    [SerializeField] private HoyKeyIconSO _hotKeyIcon;
+    [SerializeField] private HotKeyIconSO _hotKeyIcon;
     private SpriteRenderer _spriteRenderer;
 
     private BlackholeSkillController _skillController;

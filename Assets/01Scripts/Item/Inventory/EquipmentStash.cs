@@ -7,7 +7,7 @@ public class EquipmentStash : Stash
     }
 
     //장비는 다 새로운 것들로 판단.
-    public override void AddItem(ItemDataSO item, int addIndex)
+    public override void AddItem(ItemDataSO item, int count, int addIndex)
     {
         int idx = addIndex;
         if(idx < 0)

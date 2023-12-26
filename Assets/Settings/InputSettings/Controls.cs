@@ -118,9 +118,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""OpenMenu"",
+                    ""name"": ""Interaction"",
                     ""type"": ""Button"",
-                    ""id"": ""759a5fdb-84c8-4c32-a1ca-f0a2b27ed57f"",
+                    ""id"": ""52bcf037-a878-4b6b-b22b-2191d4207d49"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -284,7 +284,35 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""e450a9fd-6a93-43e7-abf9-176dd5325600"",
+                    ""id"": ""ec19cf8b-72ca-47f3-a299-1bcc69884d32"",
+                    ""path"": ""<Keyboard>/g"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interaction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""UI"",
+            ""id"": ""1fecc831-9e7b-4690-9a50-d333f022907f"",
+            ""actions"": [
+                {
+                    ""name"": ""OpenMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""81aa12f6-dd66-4a69-afe6-4052f1fed034"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""1874a8d7-47ee-4715-a7ef-a9df4697a297"",
                     ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -327,7 +355,10 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_Player_ThrowSword = m_Player.FindAction("ThrowSword", throwIfNotFound: true);
         m_Player_UltiSkill = m_Player.FindAction("UltiSkill", throwIfNotFound: true);
         m_Player_CrystalSkill = m_Player.FindAction("CrystalSkill", throwIfNotFound: true);
-        m_Player_OpenMenu = m_Player.FindAction("OpenMenu", throwIfNotFound: true);
+        m_Player_Interaction = m_Player.FindAction("Interaction", throwIfNotFound: true);
+        // UI
+        m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
+        m_UI_OpenMenu = m_UI.FindAction("OpenMenu", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -399,7 +430,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_ThrowSword;
     private readonly InputAction m_Player_UltiSkill;
     private readonly InputAction m_Player_CrystalSkill;
-    private readonly InputAction m_Player_OpenMenu;
+    private readonly InputAction m_Player_Interaction;
     public struct PlayerActions
     {
         private @Controls m_Wrapper;
@@ -414,7 +445,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @ThrowSword => m_Wrapper.m_Player_ThrowSword;
         public InputAction @UltiSkill => m_Wrapper.m_Player_UltiSkill;
         public InputAction @CrystalSkill => m_Wrapper.m_Player_CrystalSkill;
-        public InputAction @OpenMenu => m_Wrapper.m_Player_OpenMenu;
+        public InputAction @Interaction => m_Wrapper.m_Player_Interaction;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -454,9 +485,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @CrystalSkill.started += instance.OnCrystalSkill;
             @CrystalSkill.performed += instance.OnCrystalSkill;
             @CrystalSkill.canceled += instance.OnCrystalSkill;
-            @OpenMenu.started += instance.OnOpenMenu;
-            @OpenMenu.performed += instance.OnOpenMenu;
-            @OpenMenu.canceled += instance.OnOpenMenu;
+            @Interaction.started += instance.OnInteraction;
+            @Interaction.performed += instance.OnInteraction;
+            @Interaction.canceled += instance.OnInteraction;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -491,9 +522,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @CrystalSkill.started -= instance.OnCrystalSkill;
             @CrystalSkill.performed -= instance.OnCrystalSkill;
             @CrystalSkill.canceled -= instance.OnCrystalSkill;
-            @OpenMenu.started -= instance.OnOpenMenu;
-            @OpenMenu.performed -= instance.OnOpenMenu;
-            @OpenMenu.canceled -= instance.OnOpenMenu;
+            @Interaction.started -= instance.OnInteraction;
+            @Interaction.performed -= instance.OnInteraction;
+            @Interaction.canceled -= instance.OnInteraction;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -511,6 +542,52 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         }
     }
     public PlayerActions @Player => new PlayerActions(this);
+
+    // UI
+    private readonly InputActionMap m_UI;
+    private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
+    private readonly InputAction m_UI_OpenMenu;
+    public struct UIActions
+    {
+        private @Controls m_Wrapper;
+        public UIActions(@Controls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @OpenMenu => m_Wrapper.m_UI_OpenMenu;
+        public InputActionMap Get() { return m_Wrapper.m_UI; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(UIActions set) { return set.Get(); }
+        public void AddCallbacks(IUIActions instance)
+        {
+            if (instance == null || m_Wrapper.m_UIActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_UIActionsCallbackInterfaces.Add(instance);
+            @OpenMenu.started += instance.OnOpenMenu;
+            @OpenMenu.performed += instance.OnOpenMenu;
+            @OpenMenu.canceled += instance.OnOpenMenu;
+        }
+
+        private void UnregisterCallbacks(IUIActions instance)
+        {
+            @OpenMenu.started -= instance.OnOpenMenu;
+            @OpenMenu.performed -= instance.OnOpenMenu;
+            @OpenMenu.canceled -= instance.OnOpenMenu;
+        }
+
+        public void RemoveCallbacks(IUIActions instance)
+        {
+            if (m_Wrapper.m_UIActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IUIActions instance)
+        {
+            foreach (var item in m_Wrapper.m_UIActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_UIActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public UIActions @UI => new UIActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
     public InputControlScheme KeyboardMouseScheme
     {
@@ -532,6 +609,10 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         void OnThrowSword(InputAction.CallbackContext context);
         void OnUltiSkill(InputAction.CallbackContext context);
         void OnCrystalSkill(InputAction.CallbackContext context);
+        void OnInteraction(InputAction.CallbackContext context);
+    }
+    public interface IUIActions
+    {
         void OnOpenMenu(InputAction.CallbackContext context);
     }
 }

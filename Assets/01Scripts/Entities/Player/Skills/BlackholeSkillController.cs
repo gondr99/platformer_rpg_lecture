@@ -8,7 +8,7 @@ public class BlackholeSkillController : MonoBehaviour
 {
     [Header("Hotkey info")] 
     [SerializeField] private HotKeyController _hotKeyPrefab;
-    [SerializeField] private HoyKeyIconSO _hoyKeyIcon;
+    [SerializeField] private HotKeyIconSO _hoyKeyIcon;
     private List<HotKeyController> _makedHotKeyList = new List<HotKeyController>();
     private List<Key> _keyCodeList; //랜덤으로 중복되지 않은 키를 뽑기 위한 리스트
     

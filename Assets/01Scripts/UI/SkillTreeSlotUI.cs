@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public delegate void SkillUpgrade(int currentCount);
-public class SkillTreeSlotUI : MonoBehaviour
+public class SkillTreeSlotUI : MonoBehaviour, ISaveable
 {
     [SerializeField] private string _skillUpgradeName;
     [TextArea][SerializeField] private string _skillUgradeDescription;
@@ -83,5 +83,30 @@ public class SkillTreeSlotUI : MonoBehaviour
             UpgradeEvent?.Invoke(_currentUpgradeCount); //현재 업그레이드 상태 전송
             UpdateUI();
         }
+    }
+
+    public void LoadData(GameData data)
+    {
+        if (data.skillTree.TryGetValue(_skillUpgradeName, out int value))
+        {
+            unlocked = value > 0;
+            _currentUpgradeCount = value;
+
+            if (unlocked)
+            {
+                UpdateUI();
+                UpgradeEvent?.Invoke(_currentUpgradeCount);
+            }
+        }
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        if (data.skillTree.TryGetValue(_skillUpgradeName, out int value))
+        {
+            data.skillTree.Remove(_skillUpgradeName);
+        }
+
+        data.skillTree.Add(_skillUpgradeName, _currentUpgradeCount);
     }
 }

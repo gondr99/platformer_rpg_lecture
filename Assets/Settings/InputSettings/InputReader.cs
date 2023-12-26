@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 using static Controls;
 
 [CreateAssetMenu(menuName = "SO/InputReader")]
-public class InputReader : ScriptableObject, IPlayerActions
+public class InputReader : ScriptableObject, IPlayerActions, IUIActions
 {
     #region input event section
     public event Action JumpEvent;
@@ -14,6 +14,7 @@ public class InputReader : ScriptableObject, IPlayerActions
     public event Action<bool> ThrowSwordEvent;
     public event Action UltiSkillEvent;
     public event Action CrystalSkillEvent;
+    public event Action<bool> InteractionEvent;
 
     public event Action OpenMenuEvent;
     #endregion
@@ -32,8 +33,19 @@ public class InputReader : ScriptableObject, IPlayerActions
         {
             _controls = new Controls();
             _controls.Player.SetCallbacks(this);
+            _controls.UI.SetCallbacks(this);
+
         }
         _controls.Player.Enable();
+        _controls.UI.Enable();
+    }
+
+    public void SetPlayerInputEnable(bool value)
+    {
+        if(value)
+            _controls.Player.Enable();
+        else
+            _controls.Player.Disable();
     }
 
     public void OnXMovement(InputAction.CallbackContext context)
@@ -106,5 +118,13 @@ public class InputReader : ScriptableObject, IPlayerActions
     {
         if(context.performed)
             OpenMenuEvent?.Invoke();
+    }
+
+    public void OnInteraction(InputAction.CallbackContext context)
+    {
+        if(context.performed)
+            InteractionEvent?.Invoke(true);
+        else if (context.canceled)
+            InteractionEvent?.Invoke(false);
     }
 }

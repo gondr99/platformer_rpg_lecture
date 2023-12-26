@@ -96,9 +96,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "OpenMenu",
+                    "name": "Interaction",
                     "type": "Button",
-                    "id": "759a5fdb-84c8-4c32-a1ca-f0a2b27ed57f",
+                    "id": "52bcf037-a878-4b6b-b22b-2191d4207d49",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -262,7 +262,35 @@
                 },
                 {
                     "name": "",
-                    "id": "e450a9fd-6a93-43e7-abf9-176dd5325600",
+                    "id": "ec19cf8b-72ca-47f3-a299-1bcc69884d32",
+                    "path": "<Keyboard>/g",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Interaction",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "UI",
+            "id": "1fecc831-9e7b-4690-9a50-d333f022907f",
+            "actions": [
+                {
+                    "name": "OpenMenu",
+                    "type": "Button",
+                    "id": "81aa12f6-dd66-4a69-afe6-4052f1fed034",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "1874a8d7-47ee-4715-a7ef-a9df4697a297",
                     "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",

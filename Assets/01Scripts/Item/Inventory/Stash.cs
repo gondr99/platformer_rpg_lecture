@@ -56,7 +56,7 @@ public abstract class Stash
         return stashDictionary.ContainsKey(itemData);
     }
 
-    public abstract void AddItem(ItemDataSO itemData, int addIndex);
+    public abstract void AddItem(ItemDataSO itemData, int count, int addIndex);
 
     public abstract void RemoveItem(ItemDataSO itemData, int count);
 
