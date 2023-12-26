@@ -54,7 +54,7 @@ public class SaveManager : MonoSingleton<SaveManager>
 
     private void OnApplicationQuit()
     {
-        SaveGame();
+        //SaveGame();
     }
 
     private List<ISaveable> FindAllSaveManagers()

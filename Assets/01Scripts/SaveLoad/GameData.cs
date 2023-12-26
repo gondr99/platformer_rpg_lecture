@@ -11,6 +11,9 @@ public class GameData
     public SerializableDictionary<string, int> skillTree;
     public SerializableDictionary<string, InventoryItem> inventory;
     public List<string> equipmentsIDList;
+    
+    public SerializableDictionary<string, bool> savePoints;
+    public string lastVisitedSavePointID; //마지막 방문한 체크포인트의 고유 아이디.
 
     public GameData()
     {
@@ -23,5 +26,7 @@ public class GameData
         skillTree = new SerializableDictionary<string, int>();
         inventory = new SerializableDictionary<string, InventoryItem>();
         equipmentsIDList = new List<string>();
+
+        savePoints = new SerializableDictionary<string, bool>();
     }
 }

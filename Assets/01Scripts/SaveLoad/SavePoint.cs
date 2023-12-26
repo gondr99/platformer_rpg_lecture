@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class SavePoint : MonoBehaviour
 {
-    public static Action<string> CheckPointActiveEvent;
+    public static Action<string> SavePointActiveEvent;
 
     private Animator _leftAnimator, _rightAnimator;
     private SpriteRenderer _statueSprite;
@@ -93,6 +93,6 @@ public class SavePoint : MonoBehaviour
         _rightAnimator.SetBool(_hashActive, true);
 
         _statueSprite.material.SetInt(_hashEmissionOff, 0);
-        CheckPointActiveEvent?.Invoke(checkpointID); //이 체크포인트가 활성화 되었음을 알림.
+        SavePointActiveEvent?.Invoke(checkpointID); //이 체크포인트가 활성화 되었음을 알림.
     }
 }
