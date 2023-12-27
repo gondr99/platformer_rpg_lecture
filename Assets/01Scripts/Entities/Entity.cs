@@ -28,7 +28,7 @@ public abstract class Entity : MonoBehaviour
     #endregion
 
     public bool CanStateChangeable { get; set; } = true; //state can be change when value is true
-    public int FacingDirection { get; private set; } = 1; //오른쪽을 향하고 있을때 1
+    public int FacingDirection { get; protected set; } = 1; //오른쪽을 향하고 있을때 1
     public Action<int> OnFlip;
 
     public bool isDead;

@@ -14,7 +14,7 @@ public class SkelectonAttackState : EnemyState<SkelectonStateEnum>
 
     public override void Exit()
     {
-        _enemyBase.lastTimeAttacked = Time.time; //마지막으로 공격한 시간을 기록함.
+        _enemyBase.lastTimeAttacked = Time.time; //record skelecton's last attack time
         base.Exit();
     }
 
@@ -22,9 +22,9 @@ public class SkelectonAttackState : EnemyState<SkelectonStateEnum>
     {
         base.UpdateState();
 
-        if (_triggerCalled) //애니메이션이 끝났다면
+        if (_triggerCalled) // attack animation playing finished
         {
-            _stateMachine.ChangeState(SkelectonStateEnum.Battle); //추적상태로 다시 전환.
+            _stateMachine.ChangeState(SkelectonStateEnum.Battle); //change to battle state
         }
     }
 }

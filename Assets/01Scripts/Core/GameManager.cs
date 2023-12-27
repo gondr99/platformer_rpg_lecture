@@ -88,7 +88,7 @@ public class GameManager : MonoSingleton<GameManager>, ISaveable
 
         _lastVisitedSavePointId = data.lastVisitedSavePointID;
         SavePoint lastPoint = GetLastCheckPoint();
-        Debug.Log(_lastVisitedSavePointId);
+        
         if (lastPoint != null)
         {
             PlayerManager.Instance.PlayerTrm.position = lastPoint.transform.position + new Vector3(0, 1.5f);

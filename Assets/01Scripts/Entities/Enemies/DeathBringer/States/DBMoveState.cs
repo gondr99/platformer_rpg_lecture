@@ -52,11 +52,13 @@ public class DBMoveState : EnemyState<DeathBringerStateEnum>
 
         float distance = Vector2.Distance(_player.transform.position, _enemyBase.transform.position);
 
+        float yDistance = Mathf.Abs(_player.transform.position.y - _enemyBase.transform.position.y);
 
-        //앞이 절벽이거나 적이 근거리라면.
-        if (!_enemyBase.IsGroundDetected() || (distance <= _enemyBase.attackDistance))
+        //앞이 절벽이거나, 적이 너무 멀리 떨어졌다면.
+        if (!_enemyBase.IsGroundDetected() || (distance >= _enemyBase.runAwayDistance) || (yDistance > 2.5f && _player.IsGroundDetected()))
         {
             _enemyBase.StopImmediately(false);  //블렌드 트리로 값에 따라 정지와 이동이 나오게
+            _stateMachine.ChangeState(DeathBringerStateEnum.Teleport);
             return;
         }
     }

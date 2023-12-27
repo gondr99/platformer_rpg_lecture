@@ -7,12 +7,11 @@ public class InteractionKeyUI : MonoBehaviour
     [SerializeField] private Transform _barTrm;
     [SerializeField] private Color _barColor;
 
-    private SpriteRenderer _spriteRenderer;
+    [SerializeField] private SpriteRenderer _spriteRenderer;
 
     private Tween _showTween; //키가 나오는 트윈효과
     private void Awake()
     {
-        _spriteRenderer = GetComponent<SpriteRenderer>();
         _barTrm.Find("Fill").GetComponent<SpriteRenderer>().color = _barColor;
     }
 

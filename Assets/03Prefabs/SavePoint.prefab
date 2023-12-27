@@ -546,6 +546,7 @@ MonoBehaviour:
   _bar: {fileID: 8483419185867061225}
   _barTrm: {fileID: 2435598092130746137}
   _barColor: {r: 0.99001294, g: 1, b: 0.0141509175, a: 1}
+  _spriteRenderer: {fileID: 3379370086936645284}
 --- !u!1 &9133786392360349961
 GameObject:
   m_ObjectHideFlags: 0
