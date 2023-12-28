@@ -9,6 +9,7 @@ public class DBMoveState : EnemyState<DeathBringerStateEnum>
     protected Player _player;
     protected int _moveDirection;
 
+    protected float _enterStateTime;
     public DBMoveState(Enemy enemyBase, EnemyStateMachine<DeathBringerStateEnum> stateMachine, string animBoolName) : base(enemyBase, stateMachine, animBoolName)
     {
     }
@@ -18,6 +19,7 @@ public class DBMoveState : EnemyState<DeathBringerStateEnum>
         base.Enter();
         _player = PlayerManager.Instance.Player;
         SetDirectionToEnemy();
+        _enterStateTime = Time.time; //공중에서 무의미하게 점프를 막기 위함.
     }
 
     public override void Exit()
@@ -48,12 +50,14 @@ public class DBMoveState : EnemyState<DeathBringerStateEnum>
                 return;
             }
         }
-
+        
+        if(_enterStateTime + 1f >= Time.time) return;
 
         float distance = Vector2.Distance(_player.transform.position, _enemyBase.transform.position);
 
         float yDistance = Mathf.Abs(_player.transform.position.y - _enemyBase.transform.position.y);
 
+        
         //앞이 절벽이거나, 적이 너무 멀리 떨어졌다면.
         if (!_enemyBase.IsGroundDetected() || (distance >= _enemyBase.runAwayDistance) || (yDistance > 2.5f && _player.IsGroundDetected()))
         {

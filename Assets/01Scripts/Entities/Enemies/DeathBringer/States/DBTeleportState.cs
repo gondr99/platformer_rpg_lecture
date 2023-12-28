@@ -35,19 +35,32 @@ public class DBTeleportState : EnemyState<DeathBringerStateEnum>
         base.UpdateState();
         if(_state == TeleportState.HideEnd)
         {
-            if(GetPlayerBehindPosition(out Vector3 position))
+            //3번 스턴되서 들어온 텔레포트 상태면 캐스트위치로 이동
+            if (_deathBringer.stunCount >= 3)
+            {
+                _enemyBase.transform.position = _deathBringer.castPositionTrm.position;
+                ShowProcess();
+            }else if(GetPlayerBehindPosition(out Vector3 position))
             {
                 _enemyBase.transform.position = position;
-                _state = TeleportState.Show;
-                _enemyBase.AnimatorCompo.SetTrigger(_hashShowTrigger);
-                _enemyBase.SpriteRendererCompo.DOFade(1, 0.8f);
+                ShowProcess();
             }
         }
 
         if(_state == TeleportState.Show && _triggerCalled)
         {
-            _stateMachine.ChangeState(DeathBringerStateEnum.Move);
+            if(_deathBringer.stunCount < 3)
+                _stateMachine.ChangeState(DeathBringerStateEnum.Move);
+            else 
+                _stateMachine.ChangeState(DeathBringerStateEnum.Cast);
         }
+    }
+
+    private void ShowProcess()
+    {
+        _state = TeleportState.Show;
+        _enemyBase.AnimatorCompo.SetTrigger(_hashShowTrigger);
+        _enemyBase.SpriteRendererCompo.DOFade(1, 0.8f);
     }
 
     private bool GetPlayerBehindPosition(out Vector3 position)
@@ -76,34 +89,34 @@ public class DBTeleportState : EnemyState<DeathBringerStateEnum>
         return false;
     }
 
-    private bool GetRandomPositionOnGround(out Vector3 point)
-    {
-        Bounds bounds = _deathBringer.boundBox.bounds;
-        float safeOffset = 2f;
-
-        bool find = false;
-        point = Vector3.zero;
-
-        for(int i = 0; i < 30; ++i)
-        {
-            float x = Random.Range(bounds.min.x + safeOffset, bounds.max.x - safeOffset);
-            float y = Random.Range(bounds.min.y + safeOffset, bounds.max.y - safeOffset);
-
-            Vector2 tempPosition = new Vector2(x, y);
-            RaycastHit2D hit = _deathBringer.GroundBelow(tempPosition);
-            if(hit.collider)
-            {
-                point = hit.point;
-                if(!_deathBringer.ObstacleCheck(tempPosition))
-                {
-                    find = true;
-                    break;
-                }
-            }
-        }
-        
-        return find;
-    }
+    // private bool GetRandomPositionOnGround(out Vector3 point)
+    // {
+    //     Bounds bounds = _deathBringer.boundBox.bounds;
+    //     float safeOffset = 2f;
+    //
+    //     bool find = false;
+    //     point = Vector3.zero;
+    //
+    //     for(int i = 0; i < 30; ++i)
+    //     {
+    //         float x = Random.Range(bounds.min.x + safeOffset, bounds.max.x - safeOffset);
+    //         float y = Random.Range(bounds.min.y + safeOffset, bounds.max.y - safeOffset);
+    //
+    //         Vector2 tempPosition = new Vector2(x, y);
+    //         RaycastHit2D hit = _deathBringer.GroundBelow(tempPosition);
+    //         if(hit.collider)
+    //         {
+    //             point = hit.point;
+    //             if(!_deathBringer.ObstacleCheck(tempPosition))
+    //             {
+    //                 find = true;
+    //                 break;
+    //             }
+    //         }
+    //     }
+    //     
+    //     return find;
+    // }
 
     
 }

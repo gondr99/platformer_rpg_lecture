@@ -23,8 +23,12 @@ public class DBStunState : EnemyState<DeathBringerStateEnum>
         if(_deathBringer.stunCount >= 3)
         {
             //enemy will change to cast state when every three counter entered
-            _stateMachine.ChangeState(DeathBringerStateEnum.Cast);
-            _deathBringer.stunCount = 0;
+            // wait 0.5 sec for play stun animation end
+            _stunCoroutine = _enemyBase.StartDelayCallback(0.5f, () =>
+            {
+                _stateMachine.ChangeState(DeathBringerStateEnum.Teleport);
+            });
+            
             return;
         }
 

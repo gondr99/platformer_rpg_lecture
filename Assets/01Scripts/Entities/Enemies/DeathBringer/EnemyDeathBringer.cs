@@ -18,10 +18,12 @@ public class EnemyDeathBringer : Enemy
     public EnemyStateMachine<DeathBringerStateEnum> StateMachine { get; protected set; }
 
     public Vector2 sizeBox;
-    public BoxCollider2D boundBox;
-    
+
+    [SerializeField] private DeathBringerHand _handPrefab;
+    public Transform castPositionTrm;
     [SerializeField] protected float _counterStunTime;
     public int stunCount = 0;
+    
 
     protected override void Awake()
     {
@@ -66,8 +68,14 @@ public class EnemyDeathBringer : Enemy
     {
         StateMachine.CurrentState.AnimationFinishTrigger();
     }
-
-
+    
+    //create hand for cast time
+    public void CreateHandAtPosition(Vector3 position, float damageMultiplier, float delay)
+    {
+        DeathBringerHand handInstance = Instantiate(_handPrefab, position, Quaternion.identity);
+        handInstance.SetUp(this, damageMultiplier, delay);
+    }
+    
     public override void Attack()
     {
         DamageCasterCompo.CastDamage(0);
