@@ -36,12 +36,14 @@ public class CameraManager : MonoSingleton<CameraManager>
         MainCam = Camera.main;
         
         ChangeCamera(_virtualCameras[0]);
-        
-        _panDictionary = new Dictionary<PanDirection, Vector2>();
-        _panDictionary.Add(PanDirection.Up, Vector2.up);
-        _panDictionary.Add(PanDirection.Down, Vector2.down);
-        _panDictionary.Add(PanDirection.Left, Vector2.left);
-        _panDictionary.Add(PanDirection.Right, Vector2.right);
+
+        _panDictionary = new Dictionary<PanDirection, Vector2>()
+        {
+            { PanDirection.Up, Vector2.up },
+            { PanDirection.Down, Vector2.down },
+            { PanDirection.Left, Vector2.left },
+            { PanDirection.Right, Vector2.right }
+        };
     }
 
     public void ChangeCamera(CinemachineVirtualCamera activeCam)
@@ -66,21 +68,29 @@ public class CameraManager : MonoSingleton<CameraManager>
         if (_lerpYPanTween != null && _lerpYPanTween.IsActive())
             _lerpYPanTween.Kill();
 
-        float endDamingAmount = _normalYPanAmount;
+        float endDampingAmount = _normalYPanAmount;
+        //float endDampingAmount = _startingTrackedObjectOffset.y;
         if (isPlayerFalling)
         {
-            endDamingAmount = _fallPanAmount;
+            endDampingAmount = _fallPanAmount;
             LerpedFromPlayerFalling = true;
         }
 
-        //y���ΰ��� ������ ���̰ų� Ű���ִ� ������ �ϴ� Ʈ��.
+        //y damping control
         IsLerpingYDamping = true;
         _lerpYPanTween = DOTween.To(
-                () => _framingTransposer.m_YDamping, 
+                () => _framingTransposer.m_YDamping,
                 value => _framingTransposer.m_YDamping = value,
-                endDamingAmount,
+                endDampingAmount,
                 _fallYPanTime)
-            .OnComplete(()=> IsLerpingYDamping = true);
+            .OnComplete(() => IsLerpingYDamping = false);
+
+        //IsLerpingYDamping = true;
+        //_lerpYPanTween = DOTween.To(
+        //    () => _framingTransposer.m_TrackedObjectOffset.y,
+        //    value => _framingTransposer.m_TrackedObjectOffset.y = value,
+        //    endDampingAmount,
+        //    _fallYPanTime).OnComplete(() => IsLerpingYDamping = false);
     }
 
     
