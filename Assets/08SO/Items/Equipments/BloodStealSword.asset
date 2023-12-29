@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c153c91fb0a62704f8030d5b7c8422ae, type: 3}
+  m_Name: BloodStealSword
+  m_EditorClassIdentifier: 
+  itemType: 1
+  itemName: BloodStealSword
+  icon: {fileID: -591911314, guid: be55291aae08d434db3da3b59db3ab4a, type: 3}
+  itemID: 0739ae37f1074fd4bbfa0aa34426990d
+  dropChance: 0
+  equipmentType: 0
+  itemEffectDescription: add health when attack to enemy by melee
+  effectList:
+  - {fileID: 11400000, guid: d296246eb4886c64d970cd540af26e3e, type: 2}
+  additionalStats:
+  - statType: 0
+    value: 5
+  - statType: 1
+    value: 4

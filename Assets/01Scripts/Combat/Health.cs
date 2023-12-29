@@ -9,6 +9,7 @@ public class Health : MonoBehaviour, IDamageable
     [SerializeField] private int _currentHealth;
     [SerializeField] private Vector3 _popupTextOffset;
 
+    public Action OnHealthChanged;
     public Action OnHit;
     public Action<Vector2> OnDead;
     public Action<Vector2> OnKnockBack;
@@ -165,6 +166,8 @@ public class Health : MonoBehaviour, IDamageable
     {
         _currentHealth = Mathf.Min(_currentHealth + amount, maxHealth);
         Vector3 position = _owner.transform.position + _popupTextOffset;
+        Debug.Log($"Heal {amount}");
         PopupTextManager.Instance.PopupDamageText(position, amount.ToString(), DamageCategory.Heal);
+        OnHealthChanged?.Invoke();
     }
 }

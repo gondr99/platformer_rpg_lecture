@@ -154,4 +154,9 @@ public class Inventory : MonoSingleton<Inventory>, ISaveable
             data.equipmentsIDList.Add(pair.Key.itemID);
         }
     }
+
+    public void UseItemEffect(EffectType type)
+    {
+        equipmentSlots.UseEquipItemEffect(type);
+    }
 }

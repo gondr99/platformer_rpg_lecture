@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class DamageCaster : MonoBehaviour
@@ -13,7 +14,9 @@ public class DamageCaster : MonoBehaviour
 
     [SerializeField] private float _damageMultiplier = 1f;
     private Entity _owner;
-    
+
+    public Action OnCriticalHitSuccess;
+
     private void Awake()
     {
         _hitResult = new Collider2D[_maxHitCount];
@@ -40,7 +43,7 @@ public class DamageCaster : MonoBehaviour
             
             Vector2 direction = (_hitResult[i].transform.position - transform.position).normalized;
             
-            if (_hitResult[i].TryGetComponent<IDamageable>(out IDamageable health))
+            if (_hitResult[i].TryGetComponent<Health>(out Health health))
             {
 
                 int damage =  Mathf.RoundToInt(_owner.Stat.GetMeleeDamage() * _damageMultiplier);
@@ -48,6 +51,11 @@ public class DamageCaster : MonoBehaviour
                 damage = CalculateDamage(damage); //계산증뎀
                 Vector2 power = knockbackPower[combo];
                 health.ApplyDamage(damage, direction, power, _owner);
+
+                if(health.isLastHitCritical)
+                {
+                    OnCriticalHitSuccess?.Invoke();
+                }
             }
         }
 

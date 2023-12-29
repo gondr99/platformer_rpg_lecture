@@ -108,4 +108,13 @@ public class EquipmentSlots
             
         }
     }
+
+    public void UseEquipItemEffect(EffectType type)
+    {
+        //장착한 아이템 SO들
+        foreach(ItemDataEquipmentSO equipment in equipmentDictionary.Keys)
+        {
+            equipment.UseEffect(type); //발동가능한 녀석들은 모두 발동
+        }
+    }
 }

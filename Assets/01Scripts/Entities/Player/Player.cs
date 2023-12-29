@@ -51,6 +51,13 @@ public class Player : Entity
                 Debug.Log(ex);
             }
         }
+
+        DamageCasterCompo.OnCriticalHitSuccess += HandleCriticalHitSuccess;
+    }
+
+    private void HandleCriticalHitSuccess()
+    {
+        Inventory.Instance.UseItemEffect(EffectType.Critical);
     }
 
     #region input event Handling section
@@ -123,6 +130,7 @@ public class Player : Entity
 
         if (hitSuccess)
         {
+            Inventory.Instance.UseItemEffect(EffectType.Melee);
             //hit success item effect must implementing here
             if(currentComboCounter == 2)
                 SkillManager.Instance.GetSkill<ThunderStrikeSkill>().AttemptUseSkill();

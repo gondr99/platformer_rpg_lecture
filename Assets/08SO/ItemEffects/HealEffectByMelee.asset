@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: HealEffectByMelee
   m_EditorClassIdentifier: 
   effectChance: 100
+  usedByCritical: 1
   usedByMelee: 1
   usedBySkill: 0
   usedByHit: 0
   activeSkillTypeList: 
   effectCooldown: 4
   _percentHeal: 0
-  _healValue: 0
+  _healValue: 2
   _healPercent: 0

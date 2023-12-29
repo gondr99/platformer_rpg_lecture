@@ -13,6 +13,7 @@ public class InGameUI : MonoBehaviour
     {
         _playerHealth = PlayerManager.Instance.Player.HealthCompo;
         _playerHealth.OnHit += HandleHitEvent;
+        _playerHealth.OnHealthChanged += HandleHitEvent;
 
         PlayerManager.Instance.ExpChanged += HandleExpEvent;
         HandleExpEvent(); //최초 한번 실행
