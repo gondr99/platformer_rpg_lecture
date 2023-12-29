@@ -25,6 +25,9 @@ public class ItemDataEquipmentSO : ItemDataSO
     
     [TextArea]
     public string itemEffectDescription;
+    
+    [Header("item effect")]
+    public ItemEffectSO[] effectList;
 
     public List<StatValue> additionalStats;
     
@@ -93,6 +96,14 @@ public class ItemDataEquipmentSO : ItemDataSO
 
             ++_descriptionLength;
             _stringBuilder.Append($"{name} : {value.ToString()}");
+        }
+    }
+
+    public void UseEffect(EffectType type)
+    {
+        foreach (ItemEffectSO effect in effectList)
+        {
+            effect.AttemptUseEffect(type);
         }
     }
 }

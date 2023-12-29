@@ -160,4 +160,11 @@ public class Health : MonoBehaviour, IDamageable
         if (maxHealth <= 0) return 0;
         return Mathf.Clamp((float)_currentHealth / maxHealth, 0, 1f);
     }
+
+    public void ApplyHeal(int amount)
+    {
+        _currentHealth = Mathf.Min(_currentHealth + amount, maxHealth);
+        Vector3 position = _owner.transform.position + _popupTextOffset;
+        PopupTextManager.Instance.PopupDamageText(position, amount.ToString(), DamageCategory.Heal);
+    }
 }

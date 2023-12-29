@@ -27,13 +27,10 @@ public class ParallaxBackground : MonoBehaviour
 
     void LateUpdate()
     {
-        while (MoveToCameraPosition())
-        {
-            
-        }
+        MoveToCameraPosition();
     }
 
-    private bool MoveToCameraPosition()
+    private void MoveToCameraPosition()
     {
         Vector2 cameraDelta = (Vector2)_mainCamTrm.position - _camInitPosition;
 
@@ -41,19 +38,17 @@ public class ParallaxBackground : MonoBehaviour
         Vector2 moveOffset = new Vector2(cameraDelta.x * parallaxRatio.x, cameraDelta.y * parallaxRatio.y);
         transform.position = _initPosition + moveOffset;
 
-        Vector2 deltaFromCam =  (Vector2)_mainCamTrm.position - _initPosition;
+        Vector2 deltaFromCam =  _mainCamTrm.position - transform.position;
 
-        bool moved = false;
+        
         //X축에 대한 무한 스크롤 보정
         if (deltaFromCam.x > _spriteSize.x) //오른쪽이동.
         {
             _initPosition.x += _spriteSize.x;
-            moved = true;
         }
         else if (deltaFromCam.x < -  _spriteSize.x)  //왼쪽이동
         {
             _initPosition.x -= _spriteSize.x;
-            moved = true;
         }
 
         if (_yAxisRepeat)
@@ -61,15 +56,12 @@ public class ParallaxBackground : MonoBehaviour
             if (deltaFromCam.y >  _spriteSize.y) //위쪽
             {
                 _initPosition.y += _spriteSize.y;
-                moved = true;
             }
             else if (deltaFromCam.y <  - _spriteSize.y)  //아래쪽
             {
                 _initPosition.y -= _spriteSize.y;
-                moved = true;
             }
         }
 
-        return moved;
     }
 }
