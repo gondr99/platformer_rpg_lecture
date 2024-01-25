@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CameraManager : MonoSingleton<CameraManager>
 {
-    [SerializeField] private CinemachineVirtualCamera[] _virtualCameras;
+    [SerializeField] private List<CinemachineVirtualCamera> _virtualCameras;
     [SerializeField] private CameraFollowObject _followObject;
 
     [Header("lerp for jump and fall")]
@@ -30,13 +30,17 @@ public class CameraManager : MonoSingleton<CameraManager>
     private Dictionary<PanDirection, Vector2> _panDictionary;
     
     public Camera MainCam { get; private set; }
+
+    public void SetCameras(List<CinemachineVirtualCamera> camList)
+    {
+        _virtualCameras = camList;
+        ChangeCamera(_virtualCameras[0]);
+    }
     
     private void Awake()
     {
         MainCam = Camera.main;
         
-        ChangeCamera(_virtualCameras[0]);
-
         _panDictionary = new Dictionary<PanDirection, Vector2>()
         {
             { PanDirection.Up, Vector2.up },
@@ -48,7 +52,7 @@ public class CameraManager : MonoSingleton<CameraManager>
 
     public void ChangeCamera(CinemachineVirtualCamera activeCam)
     {
-        for (int i = 0; i < _virtualCameras.Length; ++i)
+        for (int i = 0; i < _virtualCameras.Count; ++i)
         {
             _virtualCameras[i].Priority = 5;
         }

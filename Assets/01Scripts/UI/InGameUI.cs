@@ -7,6 +7,7 @@ public class InGameUI : MonoBehaviour
     [SerializeField] private Image _healthSlider;
     [SerializeField] private Image _expSlider;
     [SerializeField] private TextMeshProUGUI _goldText;
+    
     private Health _playerHealth;
     
     private void Start()
@@ -20,6 +21,7 @@ public class InGameUI : MonoBehaviour
 
         PlayerManager.Instance.OnGoldChanged += HandleGoldChangeEvent;
         HandleGoldChangeEvent(PlayerManager.Instance.Gold);
+        
     }
 
     private void HandleGoldChangeEvent(int value)

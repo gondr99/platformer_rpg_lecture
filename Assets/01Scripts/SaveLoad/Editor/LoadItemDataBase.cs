@@ -38,10 +38,12 @@ public class LoadItemDataBase : Editor
             if (itemData != null)
                 loadedItemList.Add(itemData);
         }
-
+        
+        
         ItemDatabaseSO itemDB;
         itemDB = AssetDatabase.LoadAssetAtPath<ItemDatabaseSO>($"Assets/08SO/{_soName}.asset");
         string filename = AssetDatabase.GenerateUniqueAssetPath($"Assets/08SO/{_soName}.asset");
+        
         if (itemDB == null)
         {
             itemDB = ScriptableObject.CreateInstance<ItemDatabaseSO>();

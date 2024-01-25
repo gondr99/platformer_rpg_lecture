@@ -62,7 +62,7 @@ public class CrystalSkill : Skill
     private void Awake()
     {
         _skillEnable.UpgradeEvent += HandleSkillEnableEvent;
-        _addExplosion.UpgradeEvent += HandleExlosionEvent;
+        _addExplosion.UpgradeEvent += HandleExplosionEvent;
         _addAilment.UpgradeEvent += HandleAilmentEvent;
         _addChase.UpgradeEvent += HandleChaseEvent;
         _addMultiple.UpgradeEvent += HandleMultipleEvent;
@@ -71,7 +71,7 @@ public class CrystalSkill : Skill
     private void OnDestroy()
     {
         _skillEnable.UpgradeEvent -= HandleSkillEnableEvent;
-        _addExplosion.UpgradeEvent -= HandleExlosionEvent;
+        _addExplosion.UpgradeEvent -= HandleExplosionEvent;
         _addAilment.UpgradeEvent -= HandleAilmentEvent;
         _addChase.UpgradeEvent -= HandleChaseEvent;
         _addMultiple.UpgradeEvent -= HandleMultipleEvent;
@@ -84,8 +84,9 @@ public class CrystalSkill : Skill
         damageMultiplier = _skillDamageMultiplier + _chaseDamageMultiplier;
     }
 
-    private void HandleExlosionEvent(int currentCount)
+    private void HandleExplosionEvent(int currentCount)
     {
+        canExplode = true;
         explosionRadius = 1.5f + currentCount * 0.5f;
     }
 
@@ -207,6 +208,7 @@ public class CrystalSkill : Skill
     public void UnlinkCrystal()
     {
         _currentCrystal = null;
-        _cooldownTimer = _cooldown;
+        if(crystalType != CrystalType.Multiple)
+            _cooldownTimer = _cooldown;
     }
 }

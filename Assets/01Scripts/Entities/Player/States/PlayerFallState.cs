@@ -12,9 +12,9 @@ public class PlayerFallState : PlayerAirState
 
     public override void Exit()
     {
-        //³ª°¥ ¶§ ¿ø·¡´ë·Î µ¹·ÁÁÖ°í.
+        //ë‚˜ê°ˆ ë•Œ ì›ë˜ëŒ€ë¡œ ëŒë ¤ì£¼ê³ .
         CameraManager.Instance.LerpedFromPlayerFalling = false;
-        CameraManager.Instance.LerpYDamping(false); //¿ø»óº¹±Í
+        CameraManager.Instance.LerpYDamping(false); //ì›ìƒë³µê·€
         base.Exit();
     }
 
@@ -24,10 +24,10 @@ public class PlayerFallState : PlayerAirState
         
         CameraManager manager = CameraManager.Instance;
 
-        //ÀÓ°è°ªÀ» ³Ñ¾î¼­ ¶³¾îÁö°í ÀÖ°í
+        //ì„ê³„ê°’ì„ ë„˜ì–´ì„œ ë–¨ì–´ì§€ê³  ìˆê³ 
         bool overCameraThreshold = _rigidbody.velocity.y < manager.fallSpeedYDampingChangeThreshold;
         
-        //ÇöÀç ´ïÇÎÁßÀÌ ¾Æ´Ï¶ó¸é
+        //í˜„ì¬ ëŒí•‘ì¤‘ì´ ì•„ë‹ˆë¼ë©´
         if (overCameraThreshold && !manager.IsLerpingYDamping && !manager.LerpedFromPlayerFalling)
         {
             manager.LerpYDamping(true);

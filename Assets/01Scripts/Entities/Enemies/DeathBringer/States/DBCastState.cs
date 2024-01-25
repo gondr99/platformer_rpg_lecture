@@ -6,7 +6,7 @@ public class DBCastState : EnemyState<DeathBringerStateEnum>
     private int _currentHandCount = 0;
     private int _totalHandCount = 10;
     private float _handGenerateTerm = 1f;
-    private float _attackDelay = 1.5f;
+    private float _attackDelay = 0.5f;
     private float _lastHandTime;
 
     private EnemyDeathBringer _deathBringer;
@@ -54,7 +54,7 @@ public class DBCastState : EnemyState<DeathBringerStateEnum>
     private void CreateHand()
     {
         Vector3 pos = _player.transform.position + new Vector3(0, -1f, 0);
-        _deathBringer.CreateHandAtPosition(pos, 0.8f + _currentHandCount * 0.1f, _attackDelay - _currentHandCount * 0.1f);
+        _deathBringer.CreateHandAtPosition(pos, 0.8f + _currentHandCount * 0.1f, _attackDelay - _currentHandCount * 0.05f);
     }
 
 
